@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import nl.highco.thuglife.R;
 import nl.highco.thuglife.objects.Player;
+import nl.highco.thuglife.objects.Wall;
 import nl.saxion.act.playground.view.GameBoardView;
 import nl.saxion.act.playground.view.SpriteCache;
 
@@ -47,5 +48,6 @@ public class ThugGameBoardView extends GameBoardView{
 			spriteCache.loadTile(Player.PLAYER_IMAGE_U, R.drawable.player_u);
 			spriteCache.loadTile(Player.PLAYER_IMAGE_D, R.drawable.player_d);
 			spriteCache.loadTile(Player.PLAYER_IMAGE_L, R.drawable.player_l);
+			spriteCache.loadTile(Wall.WALL_IMAGE, R.drawable.wall);
 		}
 }

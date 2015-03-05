@@ -1,6 +1,6 @@
 package nl.highco.thuglife.objects;
 
-import nl.highco.thuglife.Score;
+
 import nl.saxion.act.playground.model.GameBoard;
 import nl.saxion.act.playground.model.GameObject;
 
@@ -17,8 +17,8 @@ public class Weed extends GameObject {
 
 	@Override
 	public void onTouched(GameBoard gameBoard) {
-		
-		Score score = new Score();
+		/**
+		Score score = new Score(); 
 		
 		int newPosX = (int) (Math.random() * gameBoard.getWidth());
 		int newPosY = (int) (Math.random() * gameBoard.getHeight());
@@ -28,6 +28,8 @@ public class Weed extends GameObject {
 		int newScore = oudeScore + 50;
 		score.updateScore(newScore);
 		gameBoard.updateView();
+		
+		**/
 	}
 
 
