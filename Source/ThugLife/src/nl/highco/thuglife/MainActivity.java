@@ -1,22 +1,38 @@
 package nl.highco.thuglife;
 
+import nl.highco.thuglife.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends Activity {
-
+	private ThugGame game; // voor invloed van buitenaf
+	private ThugGameBoardView gameView;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.main);
+		
+		
+		gameView = (ThugGameBoardView) findViewById(R.id.game);
+		
+		game = new ThugGame(this);
+		
+		
 	}
-
+	
+	public ThugGameBoardView getGameBoardView() {
+		return gameView;
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+	//onodig  
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
 	}
 
