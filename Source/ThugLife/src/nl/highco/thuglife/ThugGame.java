@@ -43,14 +43,14 @@ public static final String TAG = "thug game";
 		
 		//getting a map
 		MapGenerator mapgen = new MapGenerator(MAP_WIDTH,MAP_HIGHT);
-		map = mapgen.getRandomMap();
+		map = mapgen.getStandardMap();
 		
 		// setting up the board		
 		GameBoard board = getGameBoard();
 		board.removeAllObjects();
 		
 		//add player
-		board.addGameObject(new Player(), 0, 8);
+		board.addGameObject(new Player(), 1, 10);
 		
 		//add load map onto field
 		for(int x = 0; x < MAP_WIDTH; x++){
