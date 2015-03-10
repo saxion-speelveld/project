@@ -1,12 +1,13 @@
 package nl.highco.thuglife.objects;
 
-
+import nl.highco.thuglife.Score;
 import nl.saxion.act.playground.model.GameBoard;
 import nl.saxion.act.playground.model.GameObject;
 
 public class Weed extends GameObject {
 	
 	public static final String WEED_IMAGE = "weed";
+	public static final int SCORE = 50;
 	
 
 
@@ -14,22 +15,15 @@ public class Weed extends GameObject {
 	public String getImageId() {
 		return WEED_IMAGE;
 	}
+	
+	public int getScore(){
+		return SCORE;
+	}
 
 	@Override
 	public void onTouched(GameBoard gameBoard) {
-		/**
-		Score score = new Score(); 
 		
-		int newPosX = (int) (Math.random() * gameBoard.getWidth());
-		int newPosY = (int) (Math.random() * gameBoard.getHeight());
-		
-		gameBoard.addGameObject(this, newPosX, newPosY);
-		int oudeScore = score.getScore();
-		int newScore = oudeScore + 50;
-		score.updateScore(newScore);
-		gameBoard.updateView();
-		
-		**/
+	
 	}
 
 
@@ -37,7 +31,3 @@ public class Weed extends GameObject {
 
 }
 	
-	
-
-	
-
