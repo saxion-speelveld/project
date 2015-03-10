@@ -2,7 +2,25 @@
 <resources>
 
     <string name="app_name">ThugLife</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="subtitle">De enigste echte wiet-Game!</string>
+    <string name="action_settings">Instellingen</string>
+    
+    <!-- In game strings -->
+    
+    <string name="start">Start</string>
+    <string name="wiet">Wiet</string>
+    <string name="goeieshit">Goede wiet</string>
+    <string name="shop">Shop</string>
+    <string name="stats">Statistieken</string>
+    <string name="grinder">Grinder</string>
+    <string name="sgrinder">Supergrinder</string>
+    <string name="fiets">Fiets</string>
+    <string name="vloeiM">Vloeitjes</string>
+    <string name="tipM">Tipboekje</string>
+    <string name="vloeiE">Vloei</string>
+    <string name="tipE">Tip</string>
+    <string name="stoned">Stoned</string>
+    
+    <!-- End of in game strings -->
 
 </resources>
