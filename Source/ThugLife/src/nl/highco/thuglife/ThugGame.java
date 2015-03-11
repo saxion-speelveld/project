@@ -52,6 +52,9 @@ public static final String TAG = "thug game";
 		//add player
 		board.addGameObject(new Player(), 1, 10);
 		
+		// add shop
+		board.addGameObject(new Shop(), 10, 0);
+		
 		//add load map onto field
 		for(int x = 0; x < MAP_WIDTH; x++){
 			for(int y = 0; y < MAP_HIGHT; y++){
