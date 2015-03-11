@@ -1,6 +1,8 @@
 package nl.highco.thuglife.objects;
 
 
+import java.util.Random;
+
 import nl.saxion.act.playground.model.GameBoard;
 import nl.saxion.act.playground.model.GameObject;
 
@@ -8,7 +10,7 @@ public class Weed extends GameObject {
 	
 	public static final String WEED_IMAGE = "weed";
 	public static final int SCORE = 50;
-	protected GameBoard gameBoard;
+	private int[] position = new int[2];
 
 
 	@Override
@@ -24,6 +26,17 @@ public class Weed extends GameObject {
 	public void onTouched(GameBoard gameBoard) {
 		
 	
+	}
+	
+	public void updatePos(GameBoard gameBoard){
+		Random r = new Random();
+		
+		position['x'] = 0;
+		position['y'] = 0;
+		
+		position['x'] = r.nextInt(gameBoard.getWidth());
+		position['y'] = r.nextInt(gameBoard.getHeight());
+		gameBoard.addGameObject(this, this.position['x'], this.position['y']);
 	}
 	
 	
