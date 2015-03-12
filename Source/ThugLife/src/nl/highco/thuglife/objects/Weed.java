@@ -29,8 +29,10 @@ public class Weed extends GameObject {
 	}
 	
 	public void updatePos(GameBoard gameBoard){
+        // Instantiate random object
 		Random r = new Random();
 		
+        // Set standard position to 0, 0
 		position['x'] = 0;
 		position['y'] = 0;
 		
@@ -38,10 +40,6 @@ public class Weed extends GameObject {
 		position['y'] = r.nextInt(gameBoard.getHeight());
 		gameBoard.addGameObject(this, this.position['x'], this.position['y']);
 	}
-	
-	
-
-
 
 }
 	

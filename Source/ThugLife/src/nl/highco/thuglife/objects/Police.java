@@ -21,11 +21,14 @@ public class Police extends GameObject{
 	private int[] position = new int[2];
 	
 	public Police(GameBoard gameBoard){
+        // Instantiate Random object
 		Random r = new Random();
 		
-		position['x'] = 0;
-		position['y'] = 0;
+        // Set starting position to 0, 0
+		position['x'] = 4;
+		position['y'] = 4;
 		
+        // Generate new position while the position is taken, or the position is 0, 0 (Player starting position)
 		while(gameBoard.getObject(position['x'], position['y']) != null || (position['x'] == 0 && position['y'] == 0)) {
 			// Randomly place police object on the gameboard
 			position['x'] = r.nextInt(gameBoard.getWidth());
