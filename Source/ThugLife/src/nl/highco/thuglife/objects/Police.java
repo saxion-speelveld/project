@@ -7,6 +7,11 @@ import nl.saxion.act.playground.model.GameBoard;
 import nl.saxion.act.playground.model.GameObject;
 
 public class Police extends GameObject{
+    public aiActive = 0; // 0 = stationairy
+                         // 1 = search for player
+                         // 2 = chase player
+    public String[] playerLocation = new String[2];
+    
 	public static final String POLICE_IMAGE_R = "player right";
 	public static final String POLICE_IMAGE_U = "player up";
 	public static final String POLICE_IMAGE_L = "player left";
@@ -21,25 +26,41 @@ public class Police extends GameObject{
 	private int[] position = new int[2];
 	
 	public Police(){
-        /*
-        // Instantiate Random object
-		Random r = new Random();
-		
-        // Set starting position to 0, 0
-		position['x'] = 4;
-		position['y'] = 4;
-		
-        // Generate new position while the position is taken, or the position is 0, 0 (Player starting position)
-		while(gameBoard.getObject(position['x'], position['y']) != null || (position['x'] == 0 && position['y'] == 0)) {
-			// Randomly place police object on the gameboard
-			position['x'] = r.nextInt(gameBoard.getWidth());
-			position['y'] = r.nextInt(gameBoard.getHeight());
-		}
-         */
+        
+        playerLocation['x'] = 0;
+        playerLocation['y'] = 0;
 		orientation = 0;
 		
 		//gameBoard.addGameObject(this, this.position['x'], this.position['y']);
 	}
+    
+    public void setAI(int number) {
+        aiActive =  number;
+    }
+    
+    public static void doAi(GameBoard gameBoard) {
+        if(aiActive == 0) {
+            Log.e("Police AI", "AI Was started without setting activity first. Terminating.");
+        } else if(aiActive == 1) {
+            Log.i("Police AI", "Searching for player..");
+            Log.i("Police AI", "Checking surroundings");
+            int myX = getPositionX();
+            int myY = getPositionY();
+            
+            for(int x = (myX - 4); x < (myX + 4); x++) {
+                for (int y = (myY - 4); y < (myY + 4); y++) {
+                    if(gameBoard.objectAtNewPos(x, y)) {
+                        Log.i("Police AI", "Object Found");
+                        aiActive == 0);
+                    }
+                }
+            }
+        }
+        
+        while(aiActive == 2) {
+            Log.i("Police AI", "Chasing player..");
+        }
+    }
 	
 	public String getImageId() {
 		if(orientation == 0){
