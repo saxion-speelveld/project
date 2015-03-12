@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 	private ThugGame game; // voor invloed van buitenaf
 	private ThugGameBoardView gameView;
-	
+	private Button buttonStart, buttonStop;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,26 @@ public class MainActivity extends Activity {
 		gameView = (ThugGameBoardView) findViewById(R.id.game);
 		
 		game = new ThugGame(this);
+		
+		buttonStart= (Button) findViewById(R.id.buttonStart);
+		buttonStart.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				game.startTimer();
+				
+			}
+		});
+		
+		buttonStop = (Button) findViewById(R.id.buttonStop);
+		buttonStop.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				game.stopTimer();
+				
+			}
+		});
 		
 		
 	}

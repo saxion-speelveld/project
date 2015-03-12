@@ -25,7 +25,14 @@ public static final String TAG = "thug game";
 	final Handler HANDLER = new Handler();
 	private String[][] map;
 	
-	public static Player player;	
+	// player
+	private Player player;	
+	
+	// gameboard
+	private GameBoard gameBoard;
+	
+	//timer
+	private Timer timer;
 	
 
 	public ThugGame(MainActivity activity) {
@@ -40,11 +47,12 @@ public static final String TAG = "thug game";
 		
 		//???????
 		ThugGameBoardView gameView = activity.getGameBoardView();
-		GameBoard gameBoard = getGameBoard();
+		gameBoard = getGameBoard();
 		gameView.setGameBoard(gameBoard);
 		
 		//decides what kind of map format to use
 		gameView.setFixedGridSize(gameBoard.getWidth(),gameBoard.getHeight());
+		
 	}
 	
 	public void initGame(){
@@ -64,6 +72,8 @@ public static final String TAG = "thug game";
 		// add shop
 		board.addGameObject(new Shop(), 10, 0);
 		
+		
+		
 		//add load map onto field
 		for(int x = 0; x < MAP_WIDTH; x++){
 			for(int y = 0; y < MAP_HIGHT; y++){
@@ -76,23 +86,29 @@ public static final String TAG = "thug game";
 		}
 		board.updateView();
 	}
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Timer
+	
+	
 	public void startTimer() {
 		// maakt een timer die de handler en de runnable oproept elke halve
 		// seconde.
-		Timer myTimer = new Timer();
-		myTimer.schedule(new TimerTask() {
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				UpdateGUI();
 			}
 		}, 0, 500);
 	}
-
+	
+	public void stopTimer(){
+		timer.cancel();
+	}
 	// De runnable die je aan de handler meegeeft.
 	final Runnable runnable = new Runnable() {
 		public void run() {
-			;
+			player.onUpdate(gameBoard);
 		}
 	};
 
@@ -100,4 +116,6 @@ public static final String TAG = "thug game";
 	public void UpdateGUI() {
 		HANDLER.post(runnable);
 	}
+	
+	
 }
