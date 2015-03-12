@@ -7,10 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	private ThugGame game; // voor invloed van buitenaf
+	private ThugGame game;
 	private ThugGameBoardView gameView;
+	private TextView textView;
 	private Button buttonStart, buttonStop;
 	
 	@Override
@@ -22,6 +24,8 @@ public class MainActivity extends Activity {
 		gameView = (ThugGameBoardView) findViewById(R.id.game);
 		
 		game = new ThugGame(this);
+		
+		textView = (TextView) findViewById(R.id.textView1);
 		
 		buttonStart= (Button) findViewById(R.id.buttonStart);
 		buttonStart.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +52,10 @@ public class MainActivity extends Activity {
 	
 	public ThugGameBoardView getGameBoardView() {
 		return gameView;
+	}
+	
+	public void setText(String s){
+		textView.setText(s+"");
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 	//onodig  

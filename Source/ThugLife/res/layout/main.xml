@@ -30,12 +30,19 @@
  		        android:layout_weight=".96"
  		        android:text="start" />
 
+ 		    <TextView
+ 		        android:id="@+id/textView1"
+ 		        android:layout_width="wrap_content"
+ 		        android:layout_height="wrap_content"
+ 		        android:layout_weight=".96" />
+
  		    <Button
  		        android:id="@+id/buttonStop"
  		        android:layout_width="wrap_content"
  		        android:layout_height="wrap_content"
  		        android:layout_weight=".96"
  		        android:text="stop" />
+
  		</LinearLayout>
 
  	</LinearLayout>

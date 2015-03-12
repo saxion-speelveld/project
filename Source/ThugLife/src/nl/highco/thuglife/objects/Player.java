@@ -5,10 +5,12 @@ import nl.saxion.act.playground.model.GameObject;
 
 
 public class Player extends GameObject{
-	public static final String PLAYER_IMAGE_R = "player right";
-	public static final String PLAYER_IMAGE_U = "player up";
-	public static final String PLAYER_IMAGE_L = "player left";
-	public static final String PLAYER_IMAGE_D = "player down";
+	public static final String PLAYER_IMAGE_R = "player_r";
+	public static final String PLAYER_IMAGE_U = "player_u";
+	public static final String PLAYER_IMAGE_L = "player_l";
+	public static final String PLAYER_IMAGE_D = "player_d";
+	
+	private boolean alive = true;
 	/**
 	 * orientation 0 == rechts
 	 * 			   1 == omhoog
@@ -34,16 +36,8 @@ public class Player extends GameObject{
 		
 	
 	}
-
-	
-	public void onTouched(GameBoard gameBoard) {
-		orientation ++;
-		if(orientation == 4){
-			orientation = 0;
-		}
-		gameBoard.updateView();
-	}
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// de on update methode
 	public void onUpdate(GameBoard gameBoard){
 		int newPosX = getPositionX();
 		int newPosY = getPositionY();
@@ -89,11 +83,8 @@ public class Player extends GameObject{
 		gameBoard.moveObject(this, newPosX, newPosY);
 		gameBoard.updateView();
 	}
-	
-	public void setOrientation(){// set in gesture
-		
-	}
-	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//richting bepalen
 	public void setRichtingOmhoog() {
 		orientation = 1;
 	}
@@ -109,5 +100,18 @@ public class Player extends GameObject{
 	public void setRichtingLinks() {
 		orientation = 2;
 	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// player state
+	public void setPlayerToDeadState(){
+		alive = false;
+	}
+	public boolean getAliveState(){
+		return alive;
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// useles maar moet er in staan
+	public void onTouched(GameBoard gameBoard) {
+		
+	}
 }

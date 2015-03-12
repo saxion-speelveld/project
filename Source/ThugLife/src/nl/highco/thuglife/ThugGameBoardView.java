@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import nl.highco.thuglife.R;
 import nl.highco.thuglife.objects.Player;
+import nl.highco.thuglife.objects.Police;
 import nl.highco.thuglife.objects.Shop;
 import nl.highco.thuglife.objects.Wall;
 import nl.saxion.act.playground.view.GameBoardView;
@@ -49,6 +50,10 @@ public class ThugGameBoardView extends GameBoardView{
 			spriteCache.loadTile(Player.PLAYER_IMAGE_U, R.drawable.player_u);
 			spriteCache.loadTile(Player.PLAYER_IMAGE_D, R.drawable.player_d);
 			spriteCache.loadTile(Player.PLAYER_IMAGE_L, R.drawable.player_l);
+			spriteCache.loadTile(Police.POLICE_IMAGE_R, R.drawable.police_r);
+			spriteCache.loadTile(Police.POLICE_IMAGE_U, R.drawable.police_u);
+			spriteCache.loadTile(Police.POLICE_IMAGE_D, R.drawable.police_d);
+			spriteCache.loadTile(Police.POLICE_IMAGE_L, R.drawable.police_l);
 			spriteCache.loadTile(Wall.WALL_IMAGE, R.drawable.wall);
 			spriteCache.loadTile(Shop.SHOP_IMAGE, R.drawable.shop);
 		}

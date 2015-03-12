@@ -1,6 +1,8 @@
 package nl.highco.thuglife;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,11 +17,11 @@ import nl.highco.thuglife.objects.*;
 
 
 
-public class ThugGame extends Game{
+public class ThugGame extends Game implements Observer{
 	
 public static final String TAG = "thug game";
 
-//private MainActivity activity;
+private MainActivity activity;
 
 //map size
 	private final static int MAP_WIDTH = 20;
@@ -43,17 +45,20 @@ public static final String TAG = "thug game";
 	public ThugGame(MainActivity activity) {
 		super(new ThugGameboard(MAP_WIDTH,MAP_HIGHT));
 		
-		//this.activity = activity; 
+		this.activity = activity; 
 		// moet erbij als er nieuwe componenten aan het main.xml word toe gevoegd
 		
 		
 		//starts the game
 		initGame();
 		
-		//???????
+		//sets the game view to the game board
 		ThugGameBoardView gameView = activity.getGameBoardView();
 		gameBoard = getGameBoard();
+		gameBoard.addObserver(this);
 		gameView.setGameBoard(gameBoard);
+		
+		
 	// /////////////////////////////////////////////////////////////////////////////////////////////
 				// Swipe controls
 				gameView.setOnTouchListener(new OnSwipeTouchListener(activity) {
@@ -82,7 +87,9 @@ public static final String TAG = "thug game";
 					}
 
 				});	
-		
+	///////////////////////////////////////////////////////////////////////////////////////////////////	
+				
+				
 		//decides what kind of map format to use
 		gameView.setFixedGridSize(gameBoard.getWidth(),gameBoard.getHeight());
 		
@@ -164,6 +171,29 @@ public static final String TAG = "thug game";
 	// Methode waarmee je de runnable aan de handler meegeeft.
 	public void UpdateGUI() {
 		HANDLER.post(runnable);
+	}
+
+	// testen of player alive is
+	private boolean isPlayerAlive(){
+		for(int x = 0; x < MAP_WIDTH; x++){
+			for(int y = 0; y < MAP_HIGHT; y++){
+				if(gameBoard.getObject(x, y) instanceof Player){
+					Player player = (Player) gameBoard.getObject(x, y);
+					return player.getAliveState();
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+	public void update(Observable observable, Object data) {
+		
+		if(!isPlayerAlive()){
+			stopTimer();
+			activity.setText("game Over");
+		}
+		
 	}
 	
 	

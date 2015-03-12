@@ -1,7 +1,5 @@
 package nl.highco.thuglife.objects;
 
-import java.util.Random;
-
 import android.util.Log;
 import nl.saxion.act.playground.model.GameBoard;
 import nl.saxion.act.playground.model.GameObject;
@@ -11,10 +9,10 @@ public class Police extends GameObject {
 	// 1 = search for player
 	// 2 = chase player
 
-	public static final String POLICE_IMAGE_R = "police";
-	public static final String POLICE_IMAGE_U = "police";
-	public static final String POLICE_IMAGE_L = "police";
-	public static final String POLICE_IMAGE_D = "police";
+	public static final String POLICE_IMAGE_R = "police_r";
+	public static final String POLICE_IMAGE_U = "police_u";
+	public static final String POLICE_IMAGE_L = "police_l";
+	public static final String POLICE_IMAGE_D = "police_d";
 	/**
 	 * orientation 0 == rechts 1 == omhoog 2 == links 3 == beneden
 	 */
@@ -119,7 +117,9 @@ public class Police extends GameObject {
 				return;
 			}
 			if(objectAtNewPos instanceof Player) {
-				return;
+				Player player = (Player) gameBoard.getObject(newPosX,newPosY);
+				player.setPlayerToDeadState();
+				gameBoard.updateView();
 			}
 			if(objectAtNewPos instanceof Police) {
 				return;
