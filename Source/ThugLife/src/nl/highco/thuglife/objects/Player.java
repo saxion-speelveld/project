@@ -77,6 +77,12 @@ public class Player extends GameObject{
 			if (objectAtNewPos instanceof Wall) {
 				return;
 			}
+			if(objectAtNewPos instanceof Player) {
+				return;
+			}
+			if(objectAtNewPos instanceof Police) {
+				return;
+			}
 		}
 		
 		// Move wombat to the new position and redraw the app

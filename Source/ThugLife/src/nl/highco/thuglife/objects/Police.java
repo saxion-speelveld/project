@@ -11,10 +11,10 @@ public class Police extends GameObject {
 	// 1 = search for player
 	// 2 = chase player
 
-	public static final String POLICE_IMAGE_R = "player right";
-	public static final String POLICE_IMAGE_U = "player up";
-	public static final String POLICE_IMAGE_L = "player left";
-	public static final String POLICE_IMAGE_D = "player down";
+	public static final String POLICE_IMAGE_R = "police";
+	public static final String POLICE_IMAGE_U = "police";
+	public static final String POLICE_IMAGE_L = "police";
+	public static final String POLICE_IMAGE_D = "police";
 	/**
 	 * orientation 0 == rechts 1 == omhoog 2 == links 3 == beneden
 	 */
@@ -111,22 +111,17 @@ public class Police extends GameObject {
 			newPosY = getPositionY() + 1;
 		}
 
-		/*  */
-
-		// If new position is over the edge of the board, do nothing
-		if (newPosX >= gameBoard.getWidth()) {
-			return;
-		}
-		// If new position is over the edge of the board, do nothing
-		if (newPosY >= gameBoard.getHeight()) {
-			return;
-		}
-
 		// Check if there is a object on the new position
 		GameObject objectAtNewPos = gameBoard.getObject(newPosX, newPosY);
 		if (objectAtNewPos != null) {
 
 			if (objectAtNewPos instanceof Wall) {
+				return;
+			}
+			if(objectAtNewPos instanceof Player) {
+				return;
+			}
+			if(objectAtNewPos instanceof Police) {
 				return;
 			}
 		} else {

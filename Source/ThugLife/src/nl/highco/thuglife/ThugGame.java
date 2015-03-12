@@ -5,6 +5,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.os.Handler;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import nl.saxion.act.playground.model.Game;
 import nl.saxion.act.playground.model.GameBoard;
 import nl.highco.thuglife.objects.*;
@@ -65,10 +68,12 @@ public static final String TAG = "thug game";
 					}
 
 					public void onSwipeLeft() {
+						Log.i("touchListener", "links");
 						player.setRichtingLinks();
 					}
 
 					public void onSwipeBottom() {
+						Log.i("touchListener", "onder");
 						player.setRichtingBeneden();
 					}
 
@@ -105,8 +110,14 @@ public static final String TAG = "thug game";
 		//Police
 		Police p1 = new Police();
 		Police p2 = new Police();
+		Police p3 = new Police();
 		board.addGameObject(p1, 4, 4);
-		board.addGameObject(p2, 16, 16);		
+		board.addGameObject(p2, 10, 10);
+		board.addGameObject(p3, 16, 16);
+
+		politie.add(p1);
+		politie.add(p2);
+		politie.add(p3);
 		/////
 		
 		//add load map onto field
