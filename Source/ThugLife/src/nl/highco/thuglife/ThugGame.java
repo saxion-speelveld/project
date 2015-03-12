@@ -51,7 +51,32 @@ public static final String TAG = "thug game";
 		ThugGameBoardView gameView = activity.getGameBoardView();
 		gameBoard = getGameBoard();
 		gameView.setGameBoard(gameBoard);
-		
+	// /////////////////////////////////////////////////////////////////////////////////////////////
+				// Swipe controls
+				gameView.setOnTouchListener(new OnSwipeTouchListener(activity) {
+					public void onSwipeTop() {
+						Log.i("touchListener", "omhoog");
+						player.setRichtingOmhoog();
+					}
+
+					public void onSwipeRight() {
+						Log.i("touchListener", "rechts");
+						player.setRichtingRechts();
+					}
+
+					public void onSwipeLeft() {
+						player.setRichtingLinks();
+					}
+
+					public void onSwipeBottom() {
+						player.setRichtingBeneden();
+					}
+
+					public boolean onTouch(View v, MotionEvent event) {
+						return gestureDetector.onTouchEvent(event);
+					}
+
+				});	
 		
 		//decides what kind of map format to use
 		gameView.setFixedGridSize(gameBoard.getWidth(),gameBoard.getHeight());
