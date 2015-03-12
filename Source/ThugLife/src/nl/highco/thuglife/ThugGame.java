@@ -1,5 +1,9 @@
 package nl.highco.thuglife;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import android.os.Handler;
 import nl.saxion.act.playground.model.Game;
 import nl.saxion.act.playground.model.GameBoard;
 import nl.highco.thuglife.objects.*;
@@ -18,7 +22,11 @@ public static final String TAG = "thug game";
 	private final static int MAP_HIGHT = 20;
 	
 //map (can be for now only be with a random map)	
+	final Handler HANDLER = new Handler();
 	private String[][] map;
+	
+	public static Player player;	
+	
 
 	public ThugGame(MainActivity activity) {
 		super(new ThugGameboard(MAP_WIDTH,MAP_HIGHT));
@@ -49,8 +57,9 @@ public static final String TAG = "thug game";
 		GameBoard board = getGameBoard();
 		board.removeAllObjects();
 		
+		player = new Player();
 		//add player
-		board.addGameObject(new Player(), 1, 10);
+		board.addGameObject(player, 1, 10);
 		
 		// add shop
 		board.addGameObject(new Shop(), 10, 0);
@@ -68,4 +77,27 @@ public static final String TAG = "thug game";
 		board.updateView();
 	}
 
+	public void startTimer() {
+		// maakt een timer die de handler en de runnable oproept elke halve
+		// seconde.
+		Timer myTimer = new Timer();
+		myTimer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				UpdateGUI();
+			}
+		}, 0, 500);
+	}
+
+	// De runnable die je aan de handler meegeeft.
+	final Runnable runnable = new Runnable() {
+		public void run() {
+			;
+		}
+	};
+
+	// Methode waarmee je de runnable aan de handler meegeeft.
+	public void UpdateGUI() {
+		HANDLER.post(runnable);
+	}
 }
