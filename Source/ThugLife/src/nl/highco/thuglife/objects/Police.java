@@ -6,124 +6,138 @@ import android.util.Log;
 import nl.saxion.act.playground.model.GameBoard;
 import nl.saxion.act.playground.model.GameObject;
 
-public class Police extends GameObject{
-    public aiActive = 0; // 0 = stationairy
-                         // 1 = search for player
-                         // 2 = chase player
-    public String[] playerLocation = new String[2];
-    
+public class Police extends GameObject {
+	public static int aiActive = 0; // 0 = stationairy
+	// 1 = search for player
+	// 2 = chase player
+
 	public static final String POLICE_IMAGE_R = "player right";
 	public static final String POLICE_IMAGE_U = "player up";
 	public static final String POLICE_IMAGE_L = "player left";
 	public static final String POLICE_IMAGE_D = "player down";
 	/**
-	 * orientation 0 == rechts
-	 * 			   1 == omhoog
-	 * 			   2 == links
-	 * 			   3 == beneden
- 	 */
+	 * orientation 0 == rechts 1 == omhoog 2 == links 3 == beneden
+	 */
 	private int orientation;
-	private int[] position = new int[2];
-	
-	public Police(){
-        
-        playerLocation['x'] = 0;
-        playerLocation['y'] = 0;
+
+	public Police() {
 		orientation = 0;
-		
-		//gameBoard.addGameObject(this, this.position['x'], this.position['y']);
+		Log.i("Police AI", "Placed on map with coords: (" + getPositionX()
+				+ ", " + getPositionY() + ")");
 	}
-    
-    public void setAI(int number) {
-        aiActive =  number;
-    }
-    
-    public static void doAi(GameBoard gameBoard) {
-        if(aiActive == 0) {
-            Log.e("Police AI", "AI Was started without setting activity first. Terminating.");
-        } else if(aiActive == 1) {
-            Log.i("Police AI", "Searching for player..");
-            Log.i("Police AI", "Checking surroundings");
-            int myX = getPositionX();
-            int myY = getPositionY();
-            
-            for(int x = (myX - 4); x < (myX + 4); x++) {
-                for (int y = (myY - 4); y < (myY + 4); y++) {
-                    if(gameBoard.objectAtNewPos(x, y)) {
-                        Log.i("Police AI", "Object Found");
-                        aiActive == 0);
-                    }
-                }
-            }
-        }
-        
-        while(aiActive == 2) {
-            Log.i("Police AI", "Chasing player..");
-        }
-    }
-	
+
+	public void setAI(int number) {
+		aiActive = number;
+	}
+
 	public String getImageId() {
-		if(orientation == 0){
+		if (orientation == 0) {
 			return POLICE_IMAGE_R;
-		}else if(orientation == 1){
+		} else if (orientation == 1) {
 			return POLICE_IMAGE_U;
-		}else if(orientation == 2){
+		} else if (orientation == 2) {
 			return POLICE_IMAGE_L;
-		}else{
+		} else {
 			return POLICE_IMAGE_D;
 		}
-		
-	
+
 	}
 
 	public void onTouched(GameBoard gameBoard) {
 		Log.i("ONZINNIGE METHOD", "ONZINNIGE METHOD");
 	}
-	
-	public void onUpdate(GameBoard gameBoard){
+
+	public Boolean doAi(GameBoard gameBoard) {
+		Log.i("Police AI", "Searching for player..");
+		Log.i("Police AI", "Checking surroundings");
+		int myX = getPositionX();
+		int myY = getPositionY();
+		boolean playerFound = false;
+		for (int x = (myX - 4); x < (myX + 4); x++) {
+			for (int y = (myY - 4); y < (myY + 4); y++) {
+				if (x >= 0 && y >= 0 && x <= 19 && y <= 19) {
+					if (gameBoard.getObject(x, y) != null) {
+						Log.i("Police AI", "Object Found");
+						GameObject player = gameBoard.getObject(x, y);
+						/*
+						 * orientation: x++ = 0 x-- = 2 y++ = 3 y-- = 1
+						 */
+						if (player instanceof Player) {
+							playerFound = true;
+							if (myX < x) {
+								Log.i("Police AI", "Object is at: (" + x + ", "
+										+ y + ") myX < x");
+								orientation = 0;
+							} else if (myY > y) {
+								Log.i("Police AI", "Object is at: (" + x + ", "
+										+ y + ") myY > y");
+								orientation = 1;
+							} else if (myX > x) {
+								Log.i("Police AI", "Object is at: (" + x + ", "
+										+ y + ") myX > x");
+								orientation = 2;
+							} else {
+								Log.i("Police AI", "Object is at: (" + x + ", "
+										+ y + ") else");
+								orientation = 3;
+							}
+						}
+					}
+				}
+			}
+		}
+		return playerFound;
+	}
+
+	public void onUpdate(GameBoard gameBoard) {
+		Log.i("Police AI", "AI active");
+		if (!doAi(gameBoard)) {
+			orientation = (int) (Math.random() * 4);
+		}
 		int newPosX = getPositionX();
 		int newPosY = getPositionY();
-		
-		if(orientation == 0){
+
+		if (orientation == 0) {
 			newPosX = getPositionX() + 1;
-			newPosY = getPositionY();	
-		}else if(orientation == 1){
+			newPosY = getPositionY();
+		} else if (orientation == 1) {
 			newPosX = getPositionX();
 			newPosY = getPositionY() - 1;
-		}else if(orientation == 2){
+		} else if (orientation == 2) {
 			newPosX = getPositionX() - 1;
 			newPosY = getPositionY();
-		}else if(orientation == 3){
+		} else/* if (orientation == 3) */{
 			newPosX = getPositionX();
 			newPosY = getPositionY() + 1;
 		}
-		
+
 		/*  */
-	
-		
-		
+
 		// If new position is over the edge of the board, do nothing
 		if (newPosX >= gameBoard.getWidth()) {
 			return;
 		}
-		
+		// If new position is over the edge of the board, do nothing
+		if (newPosY >= gameBoard.getHeight()) {
+			return;
+		}
+
 		// Check if there is a object on the new position
 		GameObject objectAtNewPos = gameBoard.getObject(newPosX, newPosY);
 		if (objectAtNewPos != null) {
 
-			
 			if (objectAtNewPos instanceof Wall) {
 				return;
 			}
+		} else {
+			// Move wombat to the new position and redraw the app
+			gameBoard.moveObject(this, newPosX, newPosY);
+			gameBoard.updateView();
 		}
-		
-		// Move wombat to the new position and redraw the app
-		gameBoard.moveObject(this, newPosX, newPosY);
-		gameBoard.updateView();
 	}
-	
-	public void setOrientation(){// set in gesture
-		
+
+	public void setOrientation() {// set in gesture
+
 	}
 
 }

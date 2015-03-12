@@ -1,5 +1,6 @@
 package nl.highco.thuglife;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,6 +28,7 @@ public static final String TAG = "thug game";
 	
 	// player
 	private Player player;	
+	private ArrayList<Police> politie = new ArrayList<Police>();
 	
 	// gameboard
 	private GameBoard gameBoard;
@@ -50,6 +52,7 @@ public static final String TAG = "thug game";
 		gameBoard = getGameBoard();
 		gameView.setGameBoard(gameBoard);
 		
+		
 		//decides what kind of map format to use
 		gameView.setFixedGridSize(gameBoard.getWidth(),gameBoard.getHeight());
 		
@@ -72,7 +75,14 @@ public static final String TAG = "thug game";
 		// add shop
 		board.addGameObject(new Shop(), 10, 0);
 		
+		//hier aanmaken
 		
+		//Police
+		Police p1 = new Police();
+		Police p2 = new Police();
+		board.addGameObject(p1, 4, 4);
+		board.addGameObject(p2, 16, 16);		
+		/////
 		
 		//add load map onto field
 		for(int x = 0; x < MAP_WIDTH; x++){
@@ -99,7 +109,7 @@ public static final String TAG = "thug game";
 			public void run() {
 				UpdateGUI();
 			}
-		}, 0, 500);
+		}, 0, 250);
 	}
 	
 	public void stopTimer(){
@@ -109,6 +119,9 @@ public static final String TAG = "thug game";
 	final Runnable runnable = new Runnable() {
 		public void run() {
 			player.onUpdate(gameBoard);
+			for(int i = 0; i < politie.size(); i++) {
+				politie.get(i).onUpdate(gameBoard);
+			}
 		}
 	};
 
