@@ -20,7 +20,8 @@ public class Police extends GameObject{
 	private int orientation;
 	private int[] position = new int[2];
 	
-	public Police(GameBoard gameBoard){
+	public Police(){
+        /*
         // Instantiate Random object
 		Random r = new Random();
 		
@@ -34,9 +35,10 @@ public class Police extends GameObject{
 			position['x'] = r.nextInt(gameBoard.getWidth());
 			position['y'] = r.nextInt(gameBoard.getHeight());
 		}
+         */
 		orientation = 0;
 		
-		gameBoard.addGameObject(this, this.position['x'], this.position['y']);
+		//gameBoard.addGameObject(this, this.position['x'], this.position['y']);
 	}
 	
 	public String getImageId() {
