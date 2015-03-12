@@ -87,5 +87,21 @@ public class Player extends GameObject{
 	public void setOrientation(){// set in gesture
 		
 	}
+	
+	public void setRichtingOmhoog() {
+		orientation = 1;
+	}
+	
+	public void setRichtingRechts() {
+		orientation = 0;
+	}
+	
+	public void setRichtingBeneden() {
+		orientation = 3;
+	}
+	
+	public void setRichtingLinks() {
+		orientation = 2;
+	}
 
 }
