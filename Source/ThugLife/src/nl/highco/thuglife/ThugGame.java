@@ -110,7 +110,7 @@ private MainActivity activity;
 		board.addGameObject(player, 1, 10);
 		
 		// add shop
-		board.addGameObject(new Shop(), 10, 0);
+		board.addGameObject(new Shop(), 5, 10);
 		
 		//hier aanmaken
 		
@@ -139,6 +139,13 @@ private MainActivity activity;
 		}
 		board.updateView();
 	}
+	
+	
+	public void enterShop(){
+		activity.gotoShopView();
+	}
+	
+	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Timer
 	

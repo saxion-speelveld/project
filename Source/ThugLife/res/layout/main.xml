@@ -1,59 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?> 
-  <LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"  
-    android:layout_width="fill_parent" android:layout_height="fill_parent"  
-    android:orientation="vertical">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
- 	<LinearLayout
- 	    android:layout_width="match_parent"
- 	    android:layout_height="wrap_content"
- 	    android:layout_weight=".96"
- 	    android:orientation="vertical"
- 	    android:visibility="visible" >
+    <LinearLayout
+        android:id="@+id/gameView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".96"
+        android:orientation="vertical"
+        android:visibility="visible" >
 
- 		<nl.highco.thuglife.ThugGameBoardView
- 		    android:id="@+id/game"
- 		    android:layout_width="match_parent"
- 		    android:layout_height="match_parent"
- 		    android:layout_weight=".96" />
+        <nl.highco.thuglife.ThugGameBoardView
+            android:id="@+id/game"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".96" />
 
- 		<LinearLayout
- 		    android:layout_width="fill_parent"
- 		    android:layout_height="wrap_content"
- 		    android:layout_weight=".04"
- 		    android:orientation="horizontal" >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".04"
+            android:orientation="horizontal" >
 
- 		    <Button
- 		        android:id="@+id/buttonStart"
- 		        android:layout_width="wrap_content"
- 		        android:layout_height="wrap_content"
- 		        android:layout_weight=".96"
- 		        android:text="start" />
+            <Button
+                android:id="@+id/buttonStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".96"
+                android:text="start" />
 
- 		    <TextView
- 		        android:id="@+id/textView1"
- 		        android:layout_width="wrap_content"
- 		        android:layout_height="wrap_content"
- 		        android:layout_weight=".96" />
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".96" />
 
- 		    <Button
- 		        android:id="@+id/buttonStop"
- 		        android:layout_width="wrap_content"
- 		        android:layout_height="wrap_content"
- 		        android:layout_weight=".96"
- 		        android:text="stop" />
+            <Button
+                android:id="@+id/buttonStop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".96"
+                android:text="stop" />
+        </LinearLayout>
+    </LinearLayout>
 
- 		</LinearLayout>
+    <LinearLayout
+        android:id="@+id/shopView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".96"
+        android:orientation="vertical"
+        android:visibility="gone" >
 
- 	</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".96"
+            android:orientation="vertical"
+            android:visibility="visible" >
 
- 	<LinearLayout
- 	    android:layout_width="match_parent"
- 	    android:layout_height="wrap_content"
- 	    android:layout_weight=".96"
- 	    android:orientation="vertical"
- 	    android:visibility="gone" >
+            <ListView
+                android:id="@+id/listView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ListView>
 
- 	</LinearLayout>
-  
-</LinearLayout>  
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".96"
+            android:text="Back" />
+
+    </LinearLayout>
+
+</LinearLayout>

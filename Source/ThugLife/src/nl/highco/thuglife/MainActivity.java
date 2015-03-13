@@ -7,19 +7,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	private ThugGame game;
 	private ThugGameBoardView gameView;
 	private TextView textView;
-	private Button buttonStart, buttonStop;
+	private Button buttonStart, buttonStop, backButton;
+	private LinearLayout layoutShop,layoutGame;
 	
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
+		//linken voor contol visible state
+		layoutGame = (LinearLayout) findViewById(R.id.gameView);
+		layoutShop = (LinearLayout) findViewById(R.id.shopView);
+		//
 		
 		gameView = (ThugGameBoardView) findViewById(R.id.game);
 		
@@ -47,8 +52,18 @@ public class MainActivity extends Activity {
 			}
 		});
 		
+		backButton = (Button) findViewById(R.id.backButton);
+		backButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				gotoGameView();
+			}
+		});
 		
 	}
+	
+	
 	
 	public ThugGameBoardView getGameBoardView() {
 		return gameView;
@@ -56,6 +71,16 @@ public class MainActivity extends Activity {
 	
 	public void setText(String s){
 		textView.setText(s+"");
+	}
+	
+	public void gotoShopView(){
+		layoutGame.setVisibility(View.GONE);
+		layoutShop.setVisibility(View.VISIBLE);
+	}
+	
+	public void gotoGameView(){
+		layoutShop.setVisibility(View.GONE);
+		layoutGame.setVisibility(View.VISIBLE);
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 	//onodig  

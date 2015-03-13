@@ -1,5 +1,6 @@
 package nl.highco.thuglife.objects;
 
+import nl.highco.thuglife.ThugGame;
 import nl.saxion.act.playground.model.GameBoard;
 import nl.saxion.act.playground.model.GameObject;
 
@@ -75,6 +76,12 @@ public class Player extends GameObject{
 				return;
 			}
 			if(objectAtNewPos instanceof Police) {
+				return;
+			}
+			if(objectAtNewPos instanceof Shop) {
+				ThugGame game = ((ThugGame) gameBoard.getGame());
+				game.enterShop();
+				game.stopTimer();
 				return;
 			}
 		}
