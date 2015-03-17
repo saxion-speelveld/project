@@ -13,7 +13,7 @@ public class MainActivity extends Activity {
 	private ThugGame game;
 	private ThugGameBoardView gameView;
 	private TextView textView;
-	private Button buttonStartGame, buttonReset, backButton;
+	private Button btnBackToMenu, buttonReset, backButton, btnStartResume;
 	private Button Start;
 	private LinearLayout mainMenu, layoutShop,layoutGame;
 	
@@ -33,13 +33,13 @@ public class MainActivity extends Activity {
 		
 		textView = (TextView) findViewById(R.id.textView1);
 		
-		buttonStartGame = (Button) findViewById(R.id.buttonStart);
-		buttonStartGame.setOnClickListener(new View.OnClickListener() {
+		btnBackToMenu = (Button) findViewById(R.id.btnBackToMenu);
+		btnBackToMenu.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				game.startTimer();
-				
+				game.stopTimer();
+				gotoMainMenu();
 			}
 		});
 		
@@ -49,7 +49,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				game.reset();
-				
+				btnStartResume.setText("Start");
+				btnStartResume.setVisibility(View.VISIBLE);				
 			}
 		});
 		
@@ -59,6 +60,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				gotoGameView();
+				btnStartResume.setVisibility(View.VISIBLE);
 			}
 		});
 		
@@ -68,6 +70,19 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				gotoGameView();
+				game.startTimer();
+			}
+		});
+		
+		btnStartResume = (Button) findViewById(R.id.btnStartResume);
+		btnStartResume.setVisibility(View.GONE);
+		btnStartResume.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				game.startTimer();
+				btnStartResume.setVisibility(View.GONE);
+				btnStartResume.setText("Hervatten");
 			}
 		});
 		
