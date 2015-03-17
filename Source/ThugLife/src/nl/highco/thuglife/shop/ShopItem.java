@@ -8,8 +8,12 @@ public class ShopItem {
 	public ShopItem(String description, String bonus, int cost){
 		this.description = description;
 		this.bonus = bonus;
-		this.cost = cost;
 		bought = false;
+		if(cost == 0){
+			cost = 1;
+		}else{
+			this.cost = cost;
+		}
 	}
 	
 	public boolean getBought(){
@@ -24,7 +28,13 @@ public class ShopItem {
 		return bonus;
 	}
 	
+	public int getCost(){
+		return cost;
+	}
+	
 	public void setBought(boolean b){
 		bought = b;
 	}
+	
+	
 }

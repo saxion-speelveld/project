@@ -5,6 +5,7 @@ import nl.saxion.act.playground.model.GameBoard;
 import nl.saxion.act.playground.model.GameObject;
 
 
+
 public class Player extends GameObject{
 	public static final String PLAYER_IMAGE_R = "player_r";
 	public static final String PLAYER_IMAGE_U = "player_u";
@@ -83,6 +84,12 @@ public class Player extends GameObject{
 				game.enterShop();
 				game.stopTimer();
 				return;
+			}
+			if(objectAtNewPos instanceof Weed){
+				gameBoard.removeObject(objectAtNewPos);
+				ThugGame game = ((ThugGame) gameBoard.getGame());
+				game.addWiet();
+				game.updateScoreWCWW();
 			}
 		}
 		

@@ -22,7 +22,7 @@ public class ThugGame extends Game implements Observer{
 public static final String TAG = "thug game";
 
 private MainActivity activity;
-private int money, score;
+private int money, score, wiet;
 
 //map size
 	private final static int MAP_WIDTH = 20;
@@ -106,14 +106,20 @@ private int money, score;
 		GameBoard board = getGameBoard();
 		board.removeAllObjects();
 		
-		player = new Player();
+		//score en money 0
+		score = 0;
+		money = 0;
+		wiet = 0;
+		
 		//add player
+		player = new Player();
 		board.addGameObject(player, 1, 10);
 		
 		// add shop
 		board.addGameObject(new Shop(), 5, 10);
 		
-		//hier aanmaken
+		//wiet
+		board.addGameObject(new Weed(), 3, 15);
 		
 		//Police
 		politie.clear();
@@ -151,6 +157,75 @@ private int money, score;
 	public void reset(){
 		initGame();
 	}
+	
+
+	/**
+	 * adds money to total of players' money
+	 * @param aantal amount of money to be added
+	 */
+	public void addMoney(int aantal){
+		money += aantal;
+		gameBoard.notifyObservers();
+	}
+	
+	/**
+	 * deducts money of total of players' money
+	 * @param aantal amount of money to be deducted
+	 */
+	public void deductMoney(int aantal){
+		money -= aantal;
+		gameBoard.notifyObservers();
+	}
+	
+	/**
+	 * adds 50 points to score when player collides with weed object
+	 */
+	public void updateScoreWCWW(){
+		score += 50;
+		gameBoard.notifyObservers();
+	}
+	
+	/**
+	 * adds one weed
+	 */
+	public void addWiet(){
+		wiet ++;
+		gameBoard.notifyObservers();
+	}
+	/**
+	 * deducts the weed according to the given value
+	 * @param aantal
+	 */
+	public void deductWiet(int aantal){
+		wiet -= aantal;
+		gameBoard.hasChanged();
+		gameBoard.notifyObservers();
+	}
+	
+	/**
+	 * returns the total amount of money the player has
+	 * @return total amount of money player has
+	 */
+	public int getMoney(){
+		return money;
+	}
+	
+	/**
+	 * returns the total score the player has
+	 * @return total score the player has
+	 */
+	public int getScore(){
+		return score;
+	}
+	/**
+	 * returns the total amount of wiet the player has
+	 * @return wiet
+	 */
+	public int getWiet(){
+		return wiet;
+	}
+	
+	
 	
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,48 +280,14 @@ private int money, score;
 		
 		if(!isPlayerAlive()){
 			stopTimer();
-			activity.setText("game Over");
+			activity.setGameState("game Over");
 		}
+		
+		activity.updateMoneyLabels();
+		activity.updateScoreLabel();
+		activity.updateWietLabels();
 		
 	}
 	
-	/**
-	 * adds money to total of players' money
-	 * @param aantal amount of money to be added
-	 */
-	public void addMoney(int aantal){
-		money += aantal;
-	}
-	
-	/**
-	 * deducts money of total of players' money
-	 * @param aantal amount of money to be deducted
-	 */
-	public void deductMoney(int aantal){
-		money -= aantal;
-	}
-	
-	/**
-	 * adds 50 points to score when player collides whith weed object
-	 */
-	public void updateScoreWCWW(){
-		score += 50;
-	}
-	
-	/**
-	 * returns the total amount of money the player has
-	 * @return total amount of money player has
-	 */
-	public int getMoney(){
-		return money;
-	}
-	
-	/**
-	 * returns the total score the player has
-	 * @return total score the player has
-	 */
-	public int getScore(){
-		return score;
-	}
 	
 }
