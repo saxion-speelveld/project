@@ -99,7 +99,7 @@ private MainActivity activity;
 		
 		//getting a map
 		MapGenerator mapgen = new MapGenerator(MAP_WIDTH,MAP_HIGHT);
-		map = mapgen.getStandardMap();
+		map = mapgen.getStandardMap2();
 		
 		// setting up the board		
 		GameBoard board = getGameBoard();

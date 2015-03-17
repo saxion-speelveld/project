@@ -59,20 +59,24 @@ public class OnSwipeTouchListener implements OnTouchListener {
     }
 
     public void onSwipeRight() {
+    	Log.i("TouchListener", "Swipe right");
     }
 
     public void onSwipeLeft() {
+    	Log.i("TouchListener", "Swipe left");
     }
 
     public void onSwipeTop() {
+    	Log.i("TouchListener", "Swipe up");
     }
 
     public void onSwipeBottom() {
+    	Log.i("TouchListener", "Swipe down");
     }
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		// TODO Auto-generated method stub
+    	Log.i("TouchListener", "Touched");
 		return false;
 	}
 }
