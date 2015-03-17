@@ -13,69 +13,68 @@ public class MainActivity extends Activity {
 	private TextView textView;
 	private Button btnBackToMenu, buttonReset, backButton, btnStartResume;
 	private Button Start;
-	private LinearLayout mainMenu, layoutShop,layoutGame;
-	
+	private LinearLayout mainMenu, layoutShop, layoutGame;
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
-		//linken voor contol visible state
+
+		// Layouts
 		mainMenu = (LinearLayout) findViewById(R.id.mainMenu);
 		layoutGame = (LinearLayout) findViewById(R.id.gameView);
 		layoutShop = (LinearLayout) findViewById(R.id.shopView);
-		//
-		
+
+		// Game
 		gameView = (ThugGameBoardView) findViewById(R.id.game);
-		
 		game = new ThugGame(this);
-		
+
 		textView = (TextView) findViewById(R.id.textView1);
-		
+
 		btnBackToMenu = (Button) findViewById(R.id.btnBackToMenu);
 		btnBackToMenu.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				game.stopTimer();
 				gotoMainMenu();
 			}
 		});
-		
+
 		buttonReset = (Button) findViewById(R.id.buttonReset);
 		buttonReset.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				game.reset();
 				btnStartResume.setText("Start");
-				btnStartResume.setVisibility(View.VISIBLE);				
+				btnStartResume.setVisibility(View.VISIBLE);
 			}
 		});
-		
+
 		backButton = (Button) findViewById(R.id.backButton);
 		backButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				gotoGameView();
 				btnStartResume.setVisibility(View.VISIBLE);
 			}
 		});
-		
+
 		Start = (Button) findViewById(R.id.startButton);
 		Start.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				gotoGameView();
 				game.startTimer();
 			}
 		});
-		
+
 		btnStartResume = (Button) findViewById(R.id.btnStartResume);
 		btnStartResume.setVisibility(View.GONE);
 		btnStartResume.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				game.startTimer();
@@ -83,33 +82,31 @@ public class MainActivity extends Activity {
 				btnStartResume.setText("Hervatten");
 			}
 		});
-		
+
 		gotoMainMenu();
 	}
-	
-	
-	
+
 	public ThugGameBoardView getGameBoardView() {
 		return gameView;
 	}
-	
-	public void setText(String s){
-		textView.setText(s+"");
+
+	public void setText(String s) {
+		textView.setText(s + "");
 	}
-	
-	public void gotoShopView(){
+
+	public void gotoShopView() {
 		mainMenu.setVisibility(View.GONE);
 		layoutGame.setVisibility(View.GONE);
 		layoutShop.setVisibility(View.VISIBLE);
 	}
-	
-	public void gotoGameView(){
+
+	public void gotoGameView() {
 		mainMenu.setVisibility(View.GONE);
 		layoutShop.setVisibility(View.GONE);
 		layoutGame.setVisibility(View.VISIBLE);
 	}
-	
-	public void gotoMainMenu(){
+
+	public void gotoMainMenu() {
 		mainMenu.setVisibility(View.VISIBLE);
 		layoutShop.setVisibility(View.GONE);
 		layoutGame.setVisibility(View.GONE);

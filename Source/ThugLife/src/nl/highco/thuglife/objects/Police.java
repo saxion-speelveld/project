@@ -62,15 +62,18 @@ public class Police extends GameObject {
 						 */
 						if (player instanceof Player) {
 							playerFound = true;
-							if (myX < x && !(gameBoard.getObject(myX - 1, myY) instanceof Wall)) {
+							if (myX < x
+									&& !(gameBoard.getObject(myX - 1, myY) instanceof Wall)) {
 								Log.i("Police AI", "Object is at: (" + x + ", "
 										+ y + ") myX < x");
 								orientation = 0;
-							} else if (myY > y && !(gameBoard.getObject(myX, myY + 1) instanceof Wall)) {
+							} else if (myY > y
+									&& !(gameBoard.getObject(myX, myY + 1) instanceof Wall)) {
 								Log.i("Police AI", "Object is at: (" + x + ", "
 										+ y + ") myY > y");
 								orientation = 1;
-							} else if (myX > x && !(gameBoard.getObject(myX + 1, myY) instanceof Wall)) {
+							} else if (myX > x
+									&& !(gameBoard.getObject(myX + 1, myY) instanceof Wall)) {
 								Log.i("Police AI", "Object is at: (" + x + ", "
 										+ y + ") myX > x");
 								orientation = 2;
@@ -116,16 +119,16 @@ public class Police extends GameObject {
 			if (objectAtNewPos instanceof Wall) {
 				return;
 			}
-			if(objectAtNewPos instanceof Player) {
-				Player player = (Player) gameBoard.getObject(newPosX,newPosY);
+			if (objectAtNewPos instanceof Player) {
+				Player player = (Player) gameBoard.getObject(newPosX, newPosY);
 				player.setPlayerToDeadState();
 				gameBoard.updateView();
 			}
-			if(objectAtNewPos instanceof Police) {
+			if (objectAtNewPos instanceof Police) {
 				return;
 			}
 		} else {
-			// Move wombat to the new position and redraw the app
+			// Move object and redraw
 			gameBoard.moveObject(this, newPosX, newPosY);
 			gameBoard.updateView();
 		}
