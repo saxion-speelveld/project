@@ -22,6 +22,7 @@ public class ThugGame extends Game implements Observer{
 public static final String TAG = "thug game";
 
 private MainActivity activity;
+private int money, score;
 
 //map size
 	private final static int MAP_WIDTH = 20;
@@ -209,5 +210,43 @@ private MainActivity activity;
 		
 	}
 	
+	/**
+	 * adds money to total of players' money
+	 * @param aantal amount of money to be added
+	 */
+	public void addMoney(int aantal){
+		money += aantal;
+	}
+	
+	/**
+	 * deducts money of total of players' money
+	 * @param aantal amount of money to be deducted
+	 */
+	public void deductMoney(int aantal){
+		money -= aantal;
+	}
+	
+	/**
+	 * adds 50 points to score when player collides whith weed object
+	 */
+	public void updateScoreWCWW(){
+		score += 50;
+	}
+	
+	/**
+	 * returns the total amount of money the player has
+	 * @return total amount of money player has
+	 */
+	public int getMoney(){
+		return money;
+	}
+	
+	/**
+	 * returns the total score the player has
+	 * @return total score the player has
+	 */
+	public int getScore(){
+		return score;
+	}
 	
 }
