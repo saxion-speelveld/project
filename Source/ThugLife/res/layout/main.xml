@@ -38,11 +38,11 @@
                 android:layout_weight=".96" />
 
             <Button
-                android:id="@+id/buttonStop"
+                android:id="@+id/buttonReset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight=".96"
-                android:text="stop" />
+                android:text="Reset" />
         </LinearLayout>
     </LinearLayout>
 

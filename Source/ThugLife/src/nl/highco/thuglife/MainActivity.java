@@ -13,7 +13,7 @@ public class MainActivity extends Activity {
 	private ThugGame game;
 	private ThugGameBoardView gameView;
 	private TextView textView;
-	private Button buttonStart, buttonStop, backButton;
+	private Button buttonStart, buttonReset, backButton;
 	private LinearLayout layoutShop,layoutGame;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +41,12 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		buttonStop = (Button) findViewById(R.id.buttonStop);
-		buttonStop.setOnClickListener(new View.OnClickListener() {
+		buttonReset = (Button) findViewById(R.id.buttonReset);
+		buttonReset.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				game.stopTimer();
+				game.reset();
 				
 			}
 		});

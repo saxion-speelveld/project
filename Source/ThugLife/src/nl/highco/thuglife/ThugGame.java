@@ -115,6 +115,8 @@ private MainActivity activity;
 		//hier aanmaken
 		
 		//Police
+		politie.clear();
+		
 		Police p1 = new Police();
 		Police p2 = new Police();
 		Police p3 = new Police();
@@ -143,6 +145,10 @@ private MainActivity activity;
 	
 	public void enterShop(){
 		activity.gotoShopView();
+	}
+	
+	public void reset(){
+		initGame();
 	}
 	
 	
