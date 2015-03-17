@@ -62,21 +62,21 @@ public class Police extends GameObject {
 						 */
 						if (player instanceof Player) {
 							playerFound = true;
-							if (myX < x) {
+							if (myX < x && !(gameBoard.getObject(myX - 1, myY) instanceof Wall)) {
 								Log.i("Police AI", "Object is at: (" + x + ", "
 										+ y + ") myX < x");
 								orientation = 0;
-							} else if (myY > y) {
+							} else if (myY > y && !(gameBoard.getObject(myX, myY + 1) instanceof Wall)) {
 								Log.i("Police AI", "Object is at: (" + x + ", "
 										+ y + ") myY > y");
 								orientation = 1;
-							} else if (myX > x) {
+							} else if (myX > x && !(gameBoard.getObject(myX + 1, myY) instanceof Wall)) {
 								Log.i("Police AI", "Object is at: (" + x + ", "
 										+ y + ") myX > x");
 								orientation = 2;
 							} else {
 								Log.i("Police AI", "Object is at: (" + x + ", "
-										+ y + ") else");
+										+ y + ")");
 								orientation = 3;
 							}
 						}
@@ -129,10 +129,6 @@ public class Police extends GameObject {
 			gameBoard.moveObject(this, newPosX, newPosY);
 			gameBoard.updateView();
 		}
-	}
-
-	public void setOrientation() {// set in gesture
-
 	}
 
 }
