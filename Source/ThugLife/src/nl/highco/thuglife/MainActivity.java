@@ -13,14 +13,16 @@ public class MainActivity extends Activity {
 	private ThugGame game;
 	private ThugGameBoardView gameView;
 	private TextView textView;
-	private Button buttonStart, buttonReset, backButton;
-	private LinearLayout layoutShop,layoutGame;
+	private Button buttonStartGame, buttonReset, backButton;
+	private Button Start;
+	private LinearLayout mainMenu, layoutShop,layoutGame;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
 		//linken voor contol visible state
+		mainMenu = (LinearLayout) findViewById(R.id.mainMenu);
 		layoutGame = (LinearLayout) findViewById(R.id.gameView);
 		layoutShop = (LinearLayout) findViewById(R.id.shopView);
 		//
@@ -31,8 +33,8 @@ public class MainActivity extends Activity {
 		
 		textView = (TextView) findViewById(R.id.textView1);
 		
-		buttonStart= (Button) findViewById(R.id.buttonStart);
-		buttonStart.setOnClickListener(new View.OnClickListener() {
+		buttonStartGame = (Button) findViewById(R.id.buttonStart);
+		buttonStartGame.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -60,6 +62,16 @@ public class MainActivity extends Activity {
 			}
 		});
 		
+		Start = (Button) findViewById(R.id.startButton);
+		Start.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				gotoGameView();
+			}
+		});
+		
+		gotoMainMenu();
 	}
 	
 	
@@ -73,32 +85,20 @@ public class MainActivity extends Activity {
 	}
 	
 	public void gotoShopView(){
+		mainMenu.setVisibility(View.GONE);
 		layoutGame.setVisibility(View.GONE);
 		layoutShop.setVisibility(View.VISIBLE);
 	}
 	
 	public void gotoGameView(){
+		mainMenu.setVisibility(View.GONE);
 		layoutShop.setVisibility(View.GONE);
 		layoutGame.setVisibility(View.VISIBLE);
 	}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-	//onodig  
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
+	
+	public void gotoMainMenu(){
+		mainMenu.setVisibility(View.VISIBLE);
+		layoutShop.setVisibility(View.GONE);
+		layoutGame.setVisibility(View.GONE);
 	}
 }
