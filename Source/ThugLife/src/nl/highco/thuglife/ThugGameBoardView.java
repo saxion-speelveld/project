@@ -8,6 +8,7 @@ import nl.highco.thuglife.objects.Player;
 import nl.highco.thuglife.objects.Police;
 import nl.highco.thuglife.objects.Shop;
 import nl.highco.thuglife.objects.Wall;
+import nl.highco.thuglife.objects.Weed;
 import nl.saxion.act.playground.view.GameBoardView;
 import nl.saxion.act.playground.view.SpriteCache;
 
@@ -56,5 +57,6 @@ public class ThugGameBoardView extends GameBoardView{
 			spriteCache.loadTile(Police.POLICE_IMAGE_L, R.drawable.police_l);
 			spriteCache.loadTile(Wall.WALL_IMAGE, R.drawable.wall);
 			spriteCache.loadTile(Shop.SHOP_IMAGE, R.drawable.shop);
+			spriteCache.loadTile(Weed.WEED_IMAGE, R.drawable.weed);
 		}
 }
