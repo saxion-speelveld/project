@@ -109,7 +109,7 @@ private int money, score, wiet;
 		//score en money 0
 		score = 0;
 		money = 0;
-		wiet = 0;
+		wiet = 10;
 		
 		//add player
 		player = new Player();
@@ -165,7 +165,7 @@ private int money, score, wiet;
 	 */
 	public void addMoney(int aantal){
 		money += aantal;
-		gameBoard.notifyObservers();
+		gameBoard.updateView();
 	}
 	
 	/**
@@ -174,7 +174,7 @@ private int money, score, wiet;
 	 */
 	public void deductMoney(int aantal){
 		money -= aantal;
-		gameBoard.notifyObservers();
+		gameBoard.updateView();
 	}
 	
 	/**
@@ -182,7 +182,7 @@ private int money, score, wiet;
 	 */
 	public void updateScoreWCWW(){
 		score += 50;
-		gameBoard.notifyObservers();
+		gameBoard.updateView();
 	}
 	
 	/**
@@ -190,7 +190,7 @@ private int money, score, wiet;
 	 */
 	public void addWiet(){
 		wiet ++;
-		gameBoard.notifyObservers();
+		gameBoard.updateView();
 	}
 	/**
 	 * deducts the weed according to the given value
@@ -198,8 +198,7 @@ private int money, score, wiet;
 	 */
 	public void deductWiet(int aantal){
 		wiet -= aantal;
-		gameBoard.hasChanged();
-		gameBoard.notifyObservers();
+		gameBoard.updateView();
 	}
 	
 	/**

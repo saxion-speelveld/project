@@ -106,10 +106,6 @@ public class MainActivity extends Activity{
 				textViewProgress.setText("0");
 				// listView refresh
 				listView.invalidateViews();
-				//data refresh
-				textViewMoneyS.setText(game.getMoney()+"");
-				textViewWietS.setText(game.getWiet()+"");
-				
 			}
 		});
 		
