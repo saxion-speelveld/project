@@ -29,7 +29,8 @@ private int money, score, wiet;
 	private final static int MAP_HIGHT = 20;
 	
 //map (can be for now only be with a random map)	
-	final Handler HANDLER = new Handler();
+	final Handler POLICEHANDLER = new Handler();
+	final Handler PLAYERHANDLER = new Handler();
 	private String[][] map;
 	
 	// player
@@ -40,8 +41,8 @@ private int money, score, wiet;
 	private GameBoard gameBoard;
 	
 	//timer
-	private Timer timer;
-	
+	private Timer policeTimer;
+	private Timer playerTimer;
 
 	public ThugGame(MainActivity activity) {
 		super(new ThugGameboard(MAP_WIDTH,MAP_HIGHT));
@@ -230,35 +231,65 @@ private int money, score, wiet;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Timer
 	
+	// police timer
+	public void startPoliceTimer() {
 	
-	public void startTimer() {
 		// maakt een timer die de handler en de runnable oproept elke halve
 		// seconde.
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
+		policeTimer = new Timer();
+		policeTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				UpdateGUI();
+				UpdateGUIPolice();
 			}
 		}, 0, 250);
 	}
 	
-	public void stopTimer(){
-		timer.cancel();
+	private void stopPoliceTimer(){
+		policeTimer.cancel();
 	}
-	// De runnable die je aan de handler meegeeft.
-	final Runnable runnable = new Runnable() {
+	
+	//player timer
+	public void startPlayerTimer(int speed) {
+		
+		// maakt een timer die de handler en de runnable oproept elke halve
+		// seconde.
+		playerTimer = new Timer();
+		playerTimer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				UpdateGUIPlayer();
+			}
+		}, 0, speed);
+	}
+	
+	private void stopPlayerTimer(){
+		playerTimer.cancel();
+	}
+	
+	// De runnable voor de police die je aan de handler meegeeft.
+	final Runnable policeRunnable = new Runnable() {
 		public void run() {
-			player.onUpdate(gameBoard);
 			for(int i = 0; i < politie.size(); i++) {
 				politie.get(i).onUpdate(gameBoard);
 			}
 		}
 	};
+	
+	// De runnable voor de player die je aan de handler meegeeft.
+		final Runnable playerRunnable = new Runnable() {
+			public void run() {
+				player.onUpdate(gameBoard);
+			}
+		};
 
 	// Methode waarmee je de runnable aan de handler meegeeft.
-	public void UpdateGUI() {
-		HANDLER.post(runnable);
+	public void UpdateGUIPolice() {
+		POLICEHANDLER.post(policeRunnable);
+	}
+	
+	public void UpdateGUIPlayer() {
+		PLAYERHANDLER.post(playerRunnable);
 	}
 
 	// testen of player alive is
@@ -274,11 +305,15 @@ private int money, score, wiet;
 		return false;
 	}
 	
+	public void stopTimers(){
+		stopPlayerTimer();
+		stopPoliceTimer();
+	}
 	
 	public void update(Observable observable, Object data) {
 		
 		if(!isPlayerAlive()){
-			stopTimer();
+			stopTimers();
 			activity.setGameState("game Over");
 		}
 		

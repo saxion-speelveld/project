@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+//import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ShopAdapter extends ArrayAdapter<ShopItem>{
@@ -34,7 +34,7 @@ public class ShopAdapter extends ArrayAdapter<ShopItem>{
 		
 		ShopItem item = super.getItem(position);
 		
-		ImageView itemImage = (ImageView) convertView.findViewById(R.id.itemImage);
+		//ImageView itemImage = (ImageView) convertView.findViewById(R.id.itemImage);
 		TextView descriptionTextView = (TextView) convertView.findViewById(R.id.descriptionTextView);
 		TextView bonusTextView = (TextView) convertView.findViewById(R.id.bonusTextView);
 		TextView boughtTextView = (TextView) convertView.findViewById(R.id.boughtTextView);
@@ -44,7 +44,7 @@ public class ShopAdapter extends ArrayAdapter<ShopItem>{
 		
 		descriptionTextView.setText(item.getDescription()+"");
 		textViewCost.setText("Cost: " + item.getCost());
-		bonusTextView.setText("bonus :" + item.getBonus());
+		bonusTextView.setText("bonus :" + item.getBonusDescription());
 		boughtTextView.setText("gekocht :" + item.getBought()+"");
 		buyButton.setOnClickListener(new onBuyButtonClickListener(game, item));
 		buyButton.setEnabled(true);

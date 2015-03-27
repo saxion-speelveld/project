@@ -82,7 +82,7 @@ public class Player extends GameObject{
 			if(objectAtNewPos instanceof Shop) {
 				ThugGame game = ((ThugGame) gameBoard.getGame());
 				game.enterShop();
-				game.stopTimer();
+				game.stopTimers();
 				return;
 			}
 			if(objectAtNewPos instanceof Weed){

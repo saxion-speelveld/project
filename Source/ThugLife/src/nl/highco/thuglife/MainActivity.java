@@ -51,7 +51,7 @@ public class MainActivity extends Activity{
 
 			@Override
 			public void onClick(View v) {
-				game.stopTimer();
+				game.stopTimers();
 				gotoMainMenu();
 			}
 		});
@@ -69,10 +69,10 @@ public class MainActivity extends Activity{
 		
 		//shop items/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		shopItems = new ArrayList<ShopItem>();
-		shopItems.add(new ShopItem("wiet", "speed +1", 1));
-		shopItems.add(new ShopItem("was", "speed +3", 5));
-		shopItems.add(new ShopItem("wasf", "speed +3", 11));
-		shopItems.add(new ShopItem("wasw", "speed +3", 6));
+		shopItems.add(new ShopItem("wiet", "speed +1", 20, 1));
+		shopItems.add(new ShopItem("was", "speed +3", 60, 5));
+		shopItems.add(new ShopItem("wasf", "speed +3", 60, 11));
+		shopItems.add(new ShopItem("wasw", "speed +3", 60,6));
 		
 		//shop///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		ShopAdapter adapter = new ShopAdapter(this, 0, shopItems, game);
@@ -137,7 +137,8 @@ public class MainActivity extends Activity{
 			@Override
 			public void onClick(View v) {
 				gotoGameView();
-				game.startTimer();
+				game.startPoliceTimer();
+				game.startPlayerTimer(250);
 			}
 		});
 
@@ -147,7 +148,18 @@ public class MainActivity extends Activity{
 
 			@Override
 			public void onClick(View v) {
-				game.startTimer();
+				// police
+				game.startPoliceTimer();
+				// player
+				int playerSpeed = 250;
+				for(ShopItem s : shopItems){
+					if(s.getBought()){
+						playerSpeed -= s.getBonus();
+					}
+					
+				}
+				game.startPlayerTimer(playerSpeed);
+				
 				btnStartResume.setVisibility(View.GONE);
 				btnStartResume.setText("Hervatten");
 			}
