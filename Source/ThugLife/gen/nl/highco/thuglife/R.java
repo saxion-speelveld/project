@@ -23,27 +23,80 @@ public final class R {
     }
     public static final class drawable {
         public static final int cell=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int player_d=0x7f020002;
-        public static final int player_l=0x7f020003;
-        public static final int player_r=0x7f020004;
-        public static final int player_u=0x7f020005;
-        public static final int wall=0x7f020006;
+        public static final int hasj=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int player_d=0x7f020003;
+        public static final int player_l=0x7f020004;
+        public static final int player_r=0x7f020005;
+        public static final int player_u=0x7f020006;
+        public static final int police_d=0x7f020007;
+        public static final int police_l=0x7f020008;
+        public static final int police_r=0x7f020009;
+        public static final int police_u=0x7f02000a;
+        public static final int shop=0x7f02000b;
+        public static final int wall=0x7f02000c;
+        public static final int weed=0x7f02000d;
     }
     public static final class id {
-        public static final int action_settings=0x7f080001;
-        public static final int game=0x7f080000;
+        public static final int Scores=0x7f08000a;
+        public static final int action_settings=0x7f08001c;
+        public static final int action_stats=0x7f08001d;
+        public static final int backButton=0x7f080016;
+        public static final int bonusTextView=0x7f080019;
+        public static final int boughtTextView=0x7f08001a;
+        public static final int btnBackToMenu=0x7f080006;
+        public static final int btnStartResume=0x7f080007;
+        public static final int buttonReset=0x7f080009;
+        public static final int buyButton=0x7f08001b;
+        public static final int descriptionTextView=0x7f080018;
+        public static final int game=0x7f080005;
+        public static final int gameView=0x7f080004;
+        public static final int helpButton=0x7f080002;
+        public static final int itemImage=0x7f080017;
+        public static final int listView1=0x7f08000f;
+        public static final int mainMenu=0x7f080000;
+        public static final int seekBarWiet=0x7f080010;
+        public static final int sellButton=0x7f080012;
+        public static final int shopView=0x7f08000e;
+        public static final int startButton=0x7f080001;
+        public static final int statsButton=0x7f080003;
+        public static final int textView1=0x7f080015;
+        public static final int textViewCost=0x7f080008;
+        public static final int textViewMoneyG=0x7f08000c;
+        public static final int textViewMoneyS=0x7f080013;
+        public static final int textViewProgress=0x7f080011;
+        public static final int textViewScoreG=0x7f08000b;
+        public static final int textViewWietG=0x7f08000d;
+        public static final int textViewWietS=0x7f080014;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
+        public static final int activity_main=0x7f030000;
+        public static final int main=0x7f030001;
+        public static final int shop_item=0x7f030002;
     }
     public static final class menu {
-        public static final int main_menu=0x7f070000;
+        public static final int main=0x7f070000;
+        public static final int main_menu=0x7f070001;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
         public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050001;
+        public static final int fiets=0x7f05000a;
+        public static final int goeieshit=0x7f050005;
+        public static final int grinder=0x7f050008;
+        public static final int sgrinder=0x7f050009;
+        public static final int shop=0x7f050006;
+        /**  In game strings 
+         */
+        public static final int start=0x7f050003;
+        public static final int stats=0x7f050007;
+        public static final int stoned=0x7f05000f;
+        public static final int subtitle=0x7f050001;
+        public static final int tipE=0x7f05000e;
+        public static final int tipM=0x7f05000c;
+        public static final int vloeiE=0x7f05000d;
+        public static final int vloeiM=0x7f05000b;
+        public static final int wiet=0x7f050004;
     }
     public static final class style {
         /** 
