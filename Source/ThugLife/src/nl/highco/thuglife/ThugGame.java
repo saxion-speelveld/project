@@ -102,7 +102,7 @@ private int politieScore = 50;
 		
 		//getting a map
 		MapGenerator mapgen = new MapGenerator(MAP_WIDTH,MAP_HIGHT);
-		map = mapgen.getStandardMap2();
+		map = mapgen.getRandomMap();
 		
 		// setting up the board		
 		GameBoard board = getGameBoard();
@@ -138,7 +138,7 @@ private int politieScore = 50;
 		Police p1 = new Police();
 		Police p2 = new Police();
 		Police p3 = new Police();
-		board.addGameObject(p1, 4, 4);
+		board.addGameObject(p1, 5, 4);
 		board.addGameObject(p2, 10, 10);
 		board.addGameObject(p3, 16, 16);
 
