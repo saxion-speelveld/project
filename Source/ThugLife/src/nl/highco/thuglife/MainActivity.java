@@ -3,6 +3,7 @@ package nl.highco.thuglife;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import nl.highco.thuglife.shop.*;
+import nl.highco.thuglife.view.GameOverFragment;
 
 public class MainActivity extends Activity{
 	private ThugGame game;
@@ -24,7 +26,10 @@ public class MainActivity extends Activity{
 	private SeekBar seekBarWiet;
 	private LinearLayout mainMenu, layoutShop, layoutGame;
 	private ArrayList<ShopItem> shopItems;
-
+	private FragmentManager fragmentManager;
+	private GameOverFragment fragment;
+	
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
@@ -164,13 +169,25 @@ public class MainActivity extends Activity{
 				btnStartResume.setText("Hervatten");
 			}
 		});
-
+		fragmentManager = getFragmentManager();
+		fragment = new GameOverFragment();
 		gotoMainMenu();
 	}
-
+	
 	public ThugGameBoardView getGameBoardView() {
 		return gameView;
 	}
+	//shop reset
+	public void resetShop(){
+		for(ShopItem s : shopItems){
+			s.setBought(false);
+		}
+	}
+	
+	public void gotoGameOverScreen(){
+		fragmentManager.beginTransaction().replace(android.R.id.content,fragment ).commit();
+	}
+	
 	//label methods//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void setGameState(String s) {
 		textView.setText(s + "");
@@ -207,6 +224,8 @@ public class MainActivity extends Activity{
 	}
 
 	public void gotoMainMenu() {
+		fragmentManager.beginTransaction().remove(fragment).commit();
+		game.reset();
 		mainMenu.setVisibility(View.VISIBLE);
 		layoutShop.setVisibility(View.GONE);
 		layoutGame.setVisibility(View.GONE);

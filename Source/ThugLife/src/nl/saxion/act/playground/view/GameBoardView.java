@@ -3,6 +3,8 @@ package nl.saxion.act.playground.view;
 import java.util.Observable;
 import java.util.Observer;
 
+import nl.highco.thuglife.ThugGame;
+import nl.highco.thuglife.objects.Player;
 import nl.saxion.act.playground.model.GameBoard;
 import nl.saxion.act.playground.model.GameObject;
 import android.content.Context;
@@ -15,13 +17,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * View that draws a grid of images, representing the game board.
- * This class handles the resizing of the grid.
- * Two possible options exist:
- *  a) a fixed grid, where the number of tiles remains the same, but tiles
- *     may become smaller or larger.
- *  b) a relative grid, where the tile size remains the same, but the number
- *     of tiles drawn may change.
+ * View that draws a grid of images, representing the game board. This class
+ * handles the resizing of the grid. Two possible options exist: a) a fixed
+ * grid, where the number of tiles remains the same, but tiles may become
+ * smaller or larger. b) a relative grid, where the tile size remains the same,
+ * but the number of tiles drawn may change.
  * 
  * This class also handles the resizing of the bitmaps, so the image quality
  * remains good.
@@ -35,21 +35,25 @@ public abstract class GameBoardView extends View implements Observer {
 	/** When true, the number of tiles in the view remains the same. */
 	private boolean fixedGrid = true;
 
-	/** Number of tiles in X-direction. */ 
+	/** Number of tiles in X-direction. */
 	private int tileCountX = 20;
 
-	/** Number of tiles in Y-direction. */ 
+	/** Number of tiles in Y-direction. */
 	private int tileCountY = 20;
 
 	/** Size (in pixels) of the tiles. */
 	private int mTileSize = 20;
 
-	/** There is a border around the tile grid. This is the border size in pixels in 
-	 * the X-direction. */
+	/**
+	 * There is a border around the tile grid. This is the border size in pixels
+	 * in the X-direction.
+	 */
 	protected int borderSizeX;
 
-	/** There is a border around the tile grid. This is the border size in pixels in
-	 *  the Y-direction. */
+	/**
+	 * There is a border around the tile grid. This is the border size in pixels
+	 * in the Y-direction.
+	 */
 	protected int borderSizeY;
 
 	/** The image ID to use for empty tiles (no game object on them). */
@@ -58,11 +62,12 @@ public abstract class GameBoardView extends View implements Observer {
 	/** The game board to draw. */
 	private GameBoard board;
 
-	/** The number of bitmaps layers. This is 2 by default: one for the background image
-	 *  and one for the game objects.
+	/**
+	 * The number of bitmaps layers. This is 2 by default: one for the
+	 * background image and one for the game objects.
 	 */
 	private static final int NUM_BITMAP_LAYERS = 2;
-	
+
 	/** A two-dimensional array that stores the bitmaps to draw. */
 	private Bitmap[][][] mTileGrid;
 
@@ -71,9 +76,20 @@ public abstract class GameBoardView extends View implements Observer {
 
 	/** Offset of view into game board. */
 	private int modelOffsetX = 0;
-	
+
 	/** Offset of view into gameboard. */
 	private int modelOffsetY = 0;
+
+	/**
+	 * playerView
+	 * 
+	 */
+	private int xNFPlayer = 6;
+	private int xPFPlayer = 6;
+	private int yNFPlayer = 6;
+	private int yPFPlayer = 6;
+	private int playerX = 5;
+	private int playerY = 5;
 
 	/**
 	 * Constructor.
@@ -93,11 +109,13 @@ public abstract class GameBoardView extends View implements Observer {
 
 	/**
 	 * Sets this view to 'fixed grid mode'. This means that the number of tiles
-	 * in the grid will always be the same, but the tile size is changed to match
-	 * the size of the view.
+	 * in the grid will always be the same, but the tile size is changed to
+	 * match the size of the view.
 	 * 
-	 * @param tilesX  The number of tiles in X-direction.
-	 * @param tilesY  The number of tiles in Y-direction.
+	 * @param tilesX
+	 *            The number of tiles in X-direction.
+	 * @param tilesY
+	 *            The number of tiles in Y-direction.
 	 */
 	public void setFixedGridSize(int tilesX, int tilesY) {
 		fixedGrid = true;
@@ -108,11 +126,12 @@ public abstract class GameBoardView extends View implements Observer {
 	}
 
 	/**
-	 * Sets this view to 'variable grid mode'. This means that the grid size will 
-	 * always be the same, and the number of tiles in view will be changed according
-	 * to the size of the view.
+	 * Sets this view to 'variable grid mode'. This means that the grid size
+	 * will always be the same, and the number of tiles in view will be changed
+	 * according to the size of the view.
 	 * 
-	 * @param tileSize  The size in pixels of a tile.
+	 * @param tileSize
+	 *            The size in pixels of a tile.
 	 */
 	public void setVariableGridSize(int tileSize) {
 		fixedGrid = false;
@@ -125,7 +144,8 @@ public abstract class GameBoardView extends View implements Observer {
 	 * Sets a reference to the game board that will be drawn by this view.
 	 * Changes to this board will be noticed by calls to notifyObserver.
 	 * 
-	 * @param board  The game board.
+	 * @param board
+	 *            The game board.
 	 */
 	public void setGameBoard(GameBoard board) {
 		this.board = board;
@@ -138,14 +158,16 @@ public abstract class GameBoardView extends View implements Observer {
 	 * is (3,3) then the top-left corner of the view will draw the tile (3,3) in
 	 * the model.
 	 * 
-	 * @param offX   X-coordinate of the offset.
-	 * @param offY   Y-coordinate of the offset.
+	 * @param offX
+	 *            X-coordinate of the offset.
+	 * @param offY
+	 *            Y-coordinate of the offset.
 	 */
-	public void setModelOffset( int offX, int offY ) {
+	public void setModelOffset(int offX, int offY) {
 		this.modelOffsetX = offX;
 		this.modelOffsetY = offY;
 	}
-	
+
 	public int getModelOffsetX() {
 		return this.modelOffsetX;
 	}
@@ -155,10 +177,11 @@ public abstract class GameBoardView extends View implements Observer {
 	}
 
 	/**
-	 * Set the image ID (as given to loadTile()) of the image that should be used to
-	 * draw tiles on which no GameObject is present.
+	 * Set the image ID (as given to loadTile()) of the image that should be
+	 * used to draw tiles on which no GameObject is present.
 	 * 
-	 * @param key  The image to use for empty tiles.
+	 * @param key
+	 *            The image to use for empty tiles.
 	 */
 	public void setEmptyTile(String key) {
 		emptyTile = key;
@@ -174,11 +197,10 @@ public abstract class GameBoardView extends View implements Observer {
 	}
 
 	/**
-	 * Called when the user touches the game board.
-	 * Determines which tile was clicked and which object was on that place of
-	 * the board.
-	 * If an object was present, GameObject.onTouched() will be called.
-	 * If no object was there, GameBoard.onEmptyTileClicked() will be called.
+	 * Called when the user touches the game board. Determines which tile was
+	 * clicked and which object was on that place of the board. If an object was
+	 * present, GameObject.onTouched() will be called. If no object was there,
+	 * GameBoard.onEmptyTileClicked() will be called.
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -191,11 +213,12 @@ public abstract class GameBoardView extends View implements Observer {
 			// Who you gonna call?
 			if (board != null) {
 				int mx = x + modelOffsetX;
-				int my = y + modelOffsetY;			
-				Log.d(TAG, "Touched view tile ("+x+", "+y+") = model tile ("+mx+", "+my+")\n");
+				int my = y + modelOffsetY;
+				Log.d(TAG, "Touched view tile (" + x + ", " + y
+						+ ") = model tile (" + mx + ", " + my + ")\n");
 
-				if( (mx < board.getWidth()) && (my < board.getHeight())) {
-			
+				if ((mx < board.getWidth()) && (my < board.getHeight())) {
+
 					// Determine the object clicked
 					GameObject object = board.getObject(mx, my);
 
@@ -211,7 +234,7 @@ public abstract class GameBoardView extends View implements Observer {
 
 		return super.onTouchEvent(event);
 	}
-	
+
 	/** Called when the view size changed. */
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -229,82 +252,169 @@ public abstract class GameBoardView extends View implements Observer {
 		int h = getHeight();
 		if (w == 0 || h == 0)
 			return;
+		if (((playerX - xNFPlayer) >= 0)
+				&& ((playerX + xPFPlayer) < getWidth())
+				&& ((playerY - yNFPlayer) >= 0)
+				&& ((playerY + yPFPlayer) < getHeight())) {
+			// Determine tile size and number of tiles
+			if (fixedGrid) {
+				// Fixed grid: number of tiles stays the same, tile size calculated
+				mTileSize = Math.min((int) Math.floor(w / 11),
+						(int) Math.floor(h / 11));
+				Log.d(TAG, "onSizeChanged: tile size is now " + mTileSize);
+			} else {
+				// Variable grid: tileSize is static, tile count changes
+				tileCountX = (int) Math.floor(w / mTileSize);
+				tileCountY = (int) Math.floor(h / mTileSize);
+				Log.d(TAG, "onSizeChanged: tile count is now " + tileCountX + ", "
+						+ tileCountY);
+			}
 
-		// Determine tile size and number of tiles
-		if (fixedGrid) {
-			// Fixed grid: number of tiles stays the same, tile size calculated
-			mTileSize = Math.min((int) Math.floor(w / tileCountX),
-					(int) Math.floor(h / tileCountY));
-			Log.d(TAG, "onSizeChanged: tile size is now " + mTileSize);
-		} else {
-			// Variable grid: tileSize is static, tile count changes
-			tileCountX = (int) Math.floor(w / mTileSize);
-			tileCountY = (int) Math.floor(h / mTileSize);
-			Log.d(TAG, "onSizeChanged: tile count is now " + tileCountX + ", "
-					+ tileCountY);
-		}
+			// Tiles may not use the whole view, leaving a border. Calculate the
+			// size
+			// of it. (The game board is centered within the view).
+			borderSizeX = ((w - (mTileSize * 11)) / 2);
+			borderSizeY = ((h - (mTileSize * 11)) / 2);
+			Log.d(TAG, "onSizeChanged: border is now " + borderSizeX + ", "
+					+ borderSizeY);
 
-		// Tiles may not use the whole view, leaving a border. Calculate the size
-		// of it. (The game board is centered within the view).
-		borderSizeX = ((w - (mTileSize * tileCountX)) / 2);
-		borderSizeY = ((h - (mTileSize * tileCountY)) / 2);
-		Log.d(TAG, "onSizeChanged: border is now " + borderSizeX + ", " + borderSizeY);
+			// If the number of cells in the grid is fixed, cell size may have
+			// changed.
+			// Reload all the bitmaps
+			if (fixedGrid) {
+				SpriteCache.getInstance().setTileSize(mTileSize);
+				invalidate();
+			}
 
-		// If the number of cells in the grid is fixed, cell size may have
-		// changed.
-		// Reload all the bitmaps
-		if (fixedGrid) {
-			SpriteCache.getInstance().setTileSize(mTileSize);
-			invalidate();
+			// Update the array of the bitmaps, since that may have now changed
+			determineGridBitmaps();
+		}else{
+			// Determine tile size and number of tiles
+			if (fixedGrid) {
+				// Fixed grid: number of tiles stays the same, tile size calculated
+				mTileSize = Math.min((int) Math.floor(w / tileCountX),
+						(int) Math.floor(h / tileCountY));
+				Log.d(TAG, "onSizeChanged: tile size is now " + mTileSize);
+			} else {
+				// Variable grid: tileSize is static, tile count changes
+				tileCountX = (int) Math.floor(w / mTileSize);
+				tileCountY = (int) Math.floor(h / mTileSize);
+				Log.d(TAG, "onSizeChanged: tile count is now " + tileCountX + ", "
+						+ tileCountY);
+			}
+
+			// Tiles may not use the whole view, leaving a border. Calculate the
+			// size
+			// of it. (The game board is centered within the view).
+			borderSizeX = ((w - (mTileSize * tileCountX)) / 2);
+			borderSizeY = ((h - (mTileSize * tileCountY)) / 2);
+			Log.d(TAG, "onSizeChanged: border is now " + borderSizeX + ", "
+					+ borderSizeY);
+
+			// If the number of cells in the grid is fixed, cell size may have
+			// changed.
+			// Reload all the bitmaps
+			if (fixedGrid) {
+				SpriteCache.getInstance().setTileSize(mTileSize);
+				invalidate();
+			}
+
+			// Update the array of the bitmaps, since that may have now changed
+			determineGridBitmaps();
 		}
 		
-		// Update the array of the bitmaps, since that may have now changed
-		determineGridBitmaps();
 	}
 
 	/**
-	 * Update the array that contains which bitmap should be drawn where.
-	 * This is done every time the game board changed.
+	 * Update the array that contains which bitmap should be drawn where. This
+	 * is done every time the game board changed.
 	 */
 	private void determineGridBitmaps() {
-		mTileGrid = new Bitmap[tileCountX][tileCountY][NUM_BITMAP_LAYERS];
-		if( board == null )
+		if (board == null)
 			return;
-
-		// For each tile...
-		for (int x = 0; x < tileCountX; x++) {
-			for (int y = 0; y < tileCountY; y++) {
-				
-				// Calculate the coordinate of this view-tile in the model
-				int mx = x + modelOffsetX;
-				int my = y + modelOffsetY;
-				
-				// Get the game object that is on the board at that position.
-				GameObject object = null;
-				if( (mx < board.getWidth()) && (my < board.getHeight())) {
-					object = board.getObject(mx, my);
+		setPlayerXY();
+		
+		if (((playerX - xNFPlayer) >= 0)
+				&& ((playerX + xPFPlayer) < getWidth())
+				&& ((playerY - yNFPlayer) >= 0)
+				&& ((playerY + yPFPlayer) < getHeight())) {
+			mTileGrid = new Bitmap[(playerX + xPFPlayer)][(playerY + yPFPlayer)][NUM_BITMAP_LAYERS];
+			// For each tile...
+			for (int x = 0; x < (playerX + xPFPlayer); x++) {
+				for (int y = 0; y < (playerY + yPFPlayer); y++) {
+		
+					// Calculate the coordinate of this view-tile in the model
+					int mx = x ;
+					int my = y ;
+	
+					// Get the game object that is on the board at that position.
+					GameObject object = null;
+					if ((mx < board.getWidth()) && (my < board.getHeight())) {
+						object = board.getObject(mx, my);
+					}
+	
+					// Ask the game object which object should be shown
+					String objectImg = null;
+					if (object != null) {
+						objectImg = object.getImageId();
+					}
+	
+					// Ask the game board which background image should be shown
+					String backgroundImg = null;
+					if ((mx < board.getWidth()) && (my < board.getHeight())) {
+						backgroundImg = board.getBackgroundImg(mx, my);
+					}
+					if (backgroundImg == null) {
+						backgroundImg = emptyTile; // None set? Use the empty tile.
+					}
+	
+					// Find the associated bitmaps
+					mTileGrid[x][y][0] = SpriteCache.getInstance().get(
+							backgroundImg);
+					mTileGrid[x][y][1] = SpriteCache.getInstance().get(objectImg);
 				}
-				
-				// Ask the game object which object should be shown
-				String objectImg = null;
-				if( object != null ) {
-					objectImg = object.getImageId();
+			}
+			
+		}else{
+			mTileGrid = new Bitmap[tileCountX][tileCountY][NUM_BITMAP_LAYERS];
+				// For each tile...
+			for (int x = 0; x < tileCountX; x++) {
+				for (int y = 0; y < tileCountY; y++) {
+					
+	
+					// Calculate the coordinate of this view-tile in the model
+					int mx = x + modelOffsetX;
+					int my = y + modelOffsetY;
+	
+					// Get the game object that is on the board at that position.
+					GameObject object = null;
+					if ((mx < board.getWidth()) && (my < board.getHeight())) {
+						object = board.getObject(mx, my);
+					}
+	
+					// Ask the game object which object should be shown
+					String objectImg = null;
+					if (object != null) {
+						objectImg = object.getImageId();
+					}
+	
+					// Ask the game board which background image should be shown
+					String backgroundImg = null;
+					if ((mx < board.getWidth()) && (my < board.getHeight())) {
+						backgroundImg = board.getBackgroundImg(mx, my);
+					}
+					if (backgroundImg == null) {
+						backgroundImg = emptyTile; // None set? Use the empty tile.
+					}
+	
+					// Find the associated bitmaps
+					mTileGrid[x][y][0] = SpriteCache.getInstance().get(
+							backgroundImg);
+					mTileGrid[x][y][1] = SpriteCache.getInstance().get(objectImg);
 				}
-				
-				// Ask the game board which background image should be shown
-				String backgroundImg = null;
-				if( (mx < board.getWidth()) && (my < board.getHeight())) {
-					backgroundImg = board.getBackgroundImg(mx, my);
-				}
-				if( backgroundImg == null ) {
-					backgroundImg = emptyTile;  // None set? Use the empty tile.
-				}
-				
-				// Find the associated bitmaps
-				mTileGrid[x][y][0] = SpriteCache.getInstance().get(backgroundImg);
-				mTileGrid[x][y][1] = SpriteCache.getInstance().get(objectImg);
 			}
 		}
+		
 	}
 
 	/**
@@ -313,20 +423,117 @@ public abstract class GameBoardView extends View implements Observer {
 	@Override
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		recalculateGrid();
+		int leftLine = -5;
+		int bottomLine = 5;
+		int rightLine = 5;
+		int topLine = -5;
+		int playerPointX = 5;
+		int playerPointY = 5;
+		
+		if (((playerX - xNFPlayer) >= 0)
+				&& ((playerX + xPFPlayer) < getWidth())
+				&& ((playerY - yNFPlayer) >= 0)
+				&& ((playerY + yPFPlayer) < getHeight())) {
+			// For each tile on the board ...
+			
+			int drawAtX = borderSizeX + playerPointX * mTileSize;
+			int drawAtY = borderSizeY + playerPointY * mTileSize;
+			canvas.drawBitmap(mTileGrid[playerX][playerY][1], drawAtX, drawAtY,
+					mPaint);
+			// done
+			int l = 0;
+			int d = 10;
+			for (int x = 1; x <= rightLine; x++) {
+				for (int y = 0; y <= bottomLine; y++) {
+					for (int layer = 0; layer < NUM_BITMAP_LAYERS; layer++) {
+						if (mTileGrid[playerX + x][playerY + y][layer] != null) {
+							drawAtX = borderSizeX + (x+playerPointX) * mTileSize;
+							drawAtY = borderSizeY + (y+playerPointY) * mTileSize;
+							canvas.drawBitmap(mTileGrid[playerX + x][playerY
+									+ y][layer], drawAtX, drawAtY, mPaint);
+						}
+					}
+					
+				}
+				
+			}
+			
+			l = 0;
+			d = 0;
+			for (int x = leftLine; x < 1; x++) {
+				for (int y = 1; y <= bottomLine; y++) {
+					for (int layer = 0; layer < NUM_BITMAP_LAYERS; layer++) {
+						if (mTileGrid[playerX + x][playerY + y][layer] != null) {
+							drawAtX = borderSizeX + (x + playerPointX) * mTileSize;
+							drawAtY = borderSizeY + (y + playerPointY) * mTileSize;
+							canvas.drawBitmap(mTileGrid[playerX + x][playerY
+									+ y][layer], drawAtX, drawAtY, mPaint);
+						}
+					}
+					
+				}
+				
+			}
+			
+			l = 10;
+			d = 10;
+			for (int x = leftLine; x < 0; x++) {
+				for (int y = topLine; y < 1; y++) {
+					for (int layer = 0; layer < NUM_BITMAP_LAYERS; layer++) {
+						if (mTileGrid[playerX + x][playerY + y][layer] != null) {
+							drawAtX = borderSizeX +  (x+playerPointX) * mTileSize;
+							drawAtY = borderSizeY +  (y+playerPointY) * mTileSize;
+							canvas.drawBitmap(mTileGrid[playerX + x][playerY
+									+ y][layer], drawAtX, drawAtY, mPaint);
+						}
+					}
+					
+				}
+				
+			}
+			
+			l =2;
+			d = 0;
+			for (int x = 0; x <= rightLine; x++) {
+				for (int y = topLine; y <= 0; y++) {
+					for (int layer = 0; layer < NUM_BITMAP_LAYERS; layer++) {
+						if (mTileGrid[playerX + x][playerY + y][layer] != null) {
+							drawAtX = borderSizeX + (x + playerPointX)* mTileSize;
+							drawAtY = borderSizeY + (y + playerPointY)* mTileSize;
+							canvas.drawBitmap(mTileGrid[playerX + x][playerY
+									+ y][layer], drawAtX, drawAtY, mPaint);
+						}
+					}
+					
+				}
+				l++;
+				
+			}
 
-		// For each tile on the board ...
-		for (int x = 0; x < tileCountX; x++) {
-			for (int y = 0; y < tileCountY; y++) {
-				// ... and for every layer ...
-				for( int layer = 0; layer < NUM_BITMAP_LAYERS; layer++ ) {
-					if (mTileGrid[x][y][layer] != null) {
-						// ... draw the image
-						int drawAtX = borderSizeX + x * mTileSize;
-						int drawAtY = borderSizeY + y * mTileSize;
-						canvas.drawBitmap(mTileGrid[x][y][layer], drawAtX, drawAtY, mPaint);
+		} else {
+			// For each tile on the board ...
+			for (int x = 0; x < tileCountX; x++) {
+				for (int y = 0; y < tileCountY; y++) {
+					// ... and for every layer ...
+					for (int layer = 0; layer < NUM_BITMAP_LAYERS; layer++) {
+						if (mTileGrid[x][y][layer] != null) {
+							// ... draw the image
+							int drawAtX = borderSizeX + x * mTileSize;
+							int drawAtY = borderSizeY + y * mTileSize;
+							canvas.drawBitmap(mTileGrid[x][y][layer], drawAtX,
+									drawAtY, mPaint);
+						}
 					}
 				}
 			}
 		}
 	}
+	private void setPlayerXY(){
+		Player p = ((ThugGame)board.getGame()).getPlayer();
+		playerX = p.getPositionX();
+		playerY = p.getPositionY();
+		Log.i("ll","x,y" + playerX +" "+ playerY);
+	}
+	
 }
