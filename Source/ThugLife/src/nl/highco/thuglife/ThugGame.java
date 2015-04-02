@@ -23,6 +23,7 @@ public static final String TAG = "thug game";
 
 private MainActivity activity;
 private int money, score, wiet;
+private int politieScore = 50;
 
 //map size
 	private final static int MAP_WIDTH = 20;
@@ -122,6 +123,15 @@ private int money, score, wiet;
 		//wiet
 		board.addGameObject(new Weed(), 3, 15);
 		
+		double randomX = (Math.random() * MAP_WIDTH);
+		double randomY = (Math.random() * MAP_HIGHT);
+		int xSpot = (int) randomX;
+		int ySpot = (int) randomY;
+
+		if (map[xSpot][ySpot] == "e" && map[xSpot][ySpot] != "w") {
+			getGameBoard().addGameObject(new Weed(), xSpot, ySpot);
+		}
+		
 		//Police
 		politie.clear();
 		
@@ -150,6 +160,33 @@ private int money, score, wiet;
 		board.updateView();
 	}
 	
+	public void addPolice() {
+		double randomX = (Math.random() * MAP_WIDTH);
+		double randomY = (Math.random() * MAP_HIGHT);
+		int xSpot = (int) randomX;
+		int ySpot = (int) randomY;
+
+		if (map[xSpot][ySpot] == "e" && map[xSpot][ySpot] != "w") {
+			politie.add(new Police());
+			getGameBoard().addGameObject(politie.get(politie.size() - 1),
+					xSpot, ySpot);
+		} else {
+			addPolice();
+		}
+	}
+	
+	public void addWietToMap() {
+		double randomX = (Math.random() * MAP_WIDTH);
+		double randomY = (Math.random() * MAP_HIGHT);
+		int xSpot = (int) randomX;
+		int ySpot = (int) randomY;
+
+		if (map[xSpot][ySpot] == "e" && map[xSpot][ySpot] != "w") {
+			getGameBoard().addGameObject(new Weed(), xSpot, ySpot);
+		} else {
+			addWietToMap();
+		}
+	}
 	
 	public void enterShop(){
 		activity.gotoShopView();
@@ -324,8 +361,13 @@ private int money, score, wiet;
 		activity.updateMoneyLabels();
 		activity.updateScoreLabel();
 		activity.updateWietLabels();
-		
+		// Voegt politie toe als de speler een wiet object opppakt.
+		if (getScore() == politieScore) {
+			addPolice();
+			addWietToMap();
+			politieScore = politieScore + 50;
+		}
+
 	}
-	
 	
 }
