@@ -156,6 +156,7 @@ private int money, score, wiet;
 	}
 	
 	public void reset(){
+		activity.resetShop();
 		initGame();
 	}
 	
@@ -317,7 +318,7 @@ private int money, score, wiet;
 		
 		if(!isPlayerAlive()){
 			stopTimers();
-			activity.setGameState("game Over");
+			activity.gotoGameOverScreen();
 		}
 		
 		activity.updateMoneyLabels();
