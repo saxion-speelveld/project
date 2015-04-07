@@ -22,5 +22,7 @@
     <string name="stoned">Stoned</string>
     
     <!-- End of in game strings -->
+    <string name="back_to_main_menu">Back to main menu</string>
+    <string name="game_over">GAME OVER</string>
 
 </resources>

@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import nl.highco.thuglife.shop.*;
 import nl.highco.thuglife.view.GameOverFragment;
@@ -18,16 +20,16 @@ public class MainActivity extends Activity{
 	private ThugGame game;
 	private ThugGameBoardView gameView;
 	private TextView textView, textViewScoreG, textViewMoneyG, textViewMoneyS, textViewWietG, textViewWietS;
-	private TextView textViewProgress;
 	private ListView listView;
 	private Button btnBackToMenu, buttonReset, backButton, btnStartResume;
 	private Button Start;
 	private Button sellButton;
-	private SeekBar seekBarWiet;
 	private LinearLayout mainMenu, layoutShop, layoutGame;
 	private ArrayList<ShopItem> shopItems;
 	private FragmentManager fragmentManager;
 	private GameOverFragment fragment;
+	private EditText editTextNumberSell; 
+	private ShopAdapter adapter; 
 	
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,6 @@ public class MainActivity extends Activity{
 		textViewMoneyS = (TextView) findViewById(R.id.textViewMoneyS);
 		textViewWietG = (TextView) findViewById(R.id.textViewWietG);
 		textViewWietS = (TextView) findViewById(R.id.textViewWietS);
-		textViewProgress = (TextView) findViewById(R.id.textViewProgress);
 
 		btnBackToMenu = (Button) findViewById(R.id.btnBackToMenu);
 		btnBackToMenu.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +81,7 @@ public class MainActivity extends Activity{
 		shopItems.add(new ShopItem("wasw", "speed +3", 60,6));
 		
 		//shop///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		ShopAdapter adapter = new ShopAdapter(this, 0, shopItems, game);
+		adapter = new ShopAdapter(this, 0, shopItems, game);
 		listView = (ListView) findViewById(R.id.listView1);
 		listView.setAdapter(adapter);
 		
@@ -100,41 +101,46 @@ public class MainActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				int wietToSell = seekBarWiet.getProgress();
 				int sellPrice = 5;
 				
-				game.deductWiet(wietToSell);
-				game.addMoney(sellPrice * wietToSell);
+				game.deductWiet(Integer.parseInt(""+editTextNumberSell.getText()));
+				game.addMoney(sellPrice * (Integer.parseInt(""+editTextNumberSell.getText())));
 				// progress naar 0
-				seekBarWiet.setProgress(0);
-				seekBarWiet.setMax(game.getWiet());
-				textViewProgress.setText("0");
+				editTextNumberSell.setText(0+"");
 				// listView refresh
-				listView.invalidateViews();
+				adapter.notifyDataSetChanged();
 			}
 		});
-		
-		seekBarWiet = (SeekBar) findViewById(R.id.seekBarWiet);
-		seekBarWiet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+		////////////////////////////////
+		editTextNumberSell = (EditText) findViewById(R.id.editTextNumberSell);
+		editTextNumberSell.addTextChangedListener(new TextWatcher() {
 			
-			public void onStopTrackingTouch(SeekBar seekBar) {
-			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
 				
 			}
 			
-			public void onStartTrackingTouch(SeekBar seekBar) {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 				
 				
 			}
 			
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
-				if(fromUser){
-					textViewProgress.setText(""+progress);
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(s.toString().compareTo("") == 0){
+					editTextNumberSell.setText(""+0);
+					return;
+				}
+				if(Integer.parseInt(s + "") > game.getWiet()){
+					editTextNumberSell.setText(game.getWiet()+"");
 				}
 				
 			}
 		});
+		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		Start = (Button) findViewById(R.id.startButton);
 		Start.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +217,7 @@ public class MainActivity extends Activity{
 	
 
 	public void gotoShopView() {
-		seekBarWiet.setMax(game.getWiet());
+		editTextNumberSell.setText(0+"");
 		mainMenu.setVisibility(View.GONE);
 		layoutGame.setVisibility(View.GONE);
 		layoutShop.setVisibility(View.VISIBLE);
