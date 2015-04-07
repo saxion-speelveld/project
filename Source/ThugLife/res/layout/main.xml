@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:visibility="visible" >
 
     <LinearLayout
         android:id="@+id/mainMenu"
@@ -11,7 +12,7 @@
         android:layout_weight=".96"
         android:background="@android:color/holo_green_light"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="visible" >
 
         <Button
             android:id="@+id/startButton"
@@ -126,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_weight=".96"
         android:orientation="vertical"
-        android:visibility="visible" >
+        android:visibility="gone" >
 
         <ListView
             android:id="@+id/listView1"
@@ -213,6 +214,28 @@
             </LinearLayout>
 
         </LinearLayout>
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/helpView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".96"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Swipe to the direction you want to go. try to collect as many weed as possible and sell the weed in the shop so you can buy upgrades. but watch out, the police is hunting you and the more weed you collect, the more police will spawn in the game. you can notice police spawning by the WHOOP...WHOOP sound that is playing " />
+
+        <Button
+            android:id="@+id/buttonReturnM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back" />
 
     </LinearLayout>
 

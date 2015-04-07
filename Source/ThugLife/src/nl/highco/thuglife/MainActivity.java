@@ -21,10 +21,10 @@ public class MainActivity extends Activity{
 	private ThugGameBoardView gameView;
 	private TextView textView, textViewScoreG, textViewMoneyG, textViewMoneyS, textViewWietG, textViewWietS;
 	private ListView listView;
-	private Button btnBackToMenu, buttonReset, backButton, btnStartResume;
-	private Button Start;
+	private Button btnBackToMenu, buttonReset, backButton, btnStartResume, buttonReturnM;
+	private Button Start, helpButton;
 	private Button sellButton;
-	private LinearLayout mainMenu, layoutShop, layoutGame;
+	private LinearLayout mainMenu, layoutShop, layoutGame, layoutHelp;
 	private ArrayList<ShopItem> shopItems;
 	private FragmentManager fragmentManager;
 	private GameOverFragment fragment;
@@ -40,6 +40,7 @@ public class MainActivity extends Activity{
 		mainMenu = (LinearLayout) findViewById(R.id.mainMenu);
 		layoutGame = (LinearLayout) findViewById(R.id.gameView);
 		layoutShop = (LinearLayout) findViewById(R.id.shopView);
+		layoutHelp = (LinearLayout) findViewById(R.id.helpView);
 
 		// Game
 		gameView = (ThugGameBoardView) findViewById(R.id.game);
@@ -109,6 +110,24 @@ public class MainActivity extends Activity{
 				editTextNumberSell.setText(0+"");
 				// listView refresh
 				adapter.notifyDataSetChanged();
+			}
+		});
+		
+		helpButton = (Button) findViewById(R.id.helpButton);
+		helpButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				gotoHelp();
+			}
+		});
+		
+		buttonReturnM = (Button) findViewById(R.id.buttonReturnM);
+		buttonReturnM.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				gotoMainMenu();
 			}
 		});
 		////////////////////////////////
@@ -235,6 +254,12 @@ public class MainActivity extends Activity{
 		mainMenu.setVisibility(View.VISIBLE);
 		layoutShop.setVisibility(View.GONE);
 		layoutGame.setVisibility(View.GONE);
+		layoutHelp.setVisibility(View.GONE);
+	}
+	
+	public void gotoHelp(){
+		mainMenu.setVisibility(View.GONE);
+		layoutHelp.setVisibility(View.VISIBLE);
 	}
 	
 	
