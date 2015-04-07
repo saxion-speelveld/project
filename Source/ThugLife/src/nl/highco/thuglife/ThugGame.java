@@ -26,13 +26,13 @@ private int money, score, wiet;
 private int politieScore = 50;
 
 //map size
-	private final static int MAP_WIDTH = 20;
-	private final static int MAP_HIGHT = 20;
+	private final static int MAP_WIDTH = 100;
+	private final static int MAP_HIGHT = 100;
 	
 //map (can be for now only be with a random map)	
 	final Handler POLICEHANDLER = new Handler();
 	final Handler PLAYERHANDLER = new Handler();
-	private String[][] map;
+	private int[][] map;
 	
 	// player
 	private Player player;	
@@ -102,7 +102,7 @@ private int politieScore = 50;
 		
 		//getting a map
 		MapGenerator mapgen = new MapGenerator(MAP_WIDTH,MAP_HIGHT);
-		map = mapgen.getRandomMap();
+		map = mapgen.getStandardMap3();
 		
 		// setting up the board		
 		GameBoard board = getGameBoard();
@@ -115,11 +115,11 @@ private int politieScore = 50;
 		
 		//add player
 		player = new Player();
-		board.addGameObject(player, 1, 10);
+		board.addGameObject(player, 26, 11);
 		
 		// add shop
 		board.addGameObject(new Shop(), 5, 10);
-		
+		/**
 		//wiet
 		board.addGameObject(new Weed(), 3, 15);
 		
@@ -127,11 +127,11 @@ private int politieScore = 50;
 		double randomY = (Math.random() * MAP_HIGHT);
 		int xSpot = (int) randomX;
 		int ySpot = (int) randomY;
-
-		if (map[xSpot][ySpot] == "e" && map[xSpot][ySpot] != "w") {
+		
+		if (gameBoard.getObject(xSpot, ySpot)== null) {
 			getGameBoard().addGameObject(new Weed(), xSpot, ySpot);
 		}
-		
+		**/
 		//Police
 		politie.clear();
 		
@@ -150,7 +150,7 @@ private int politieScore = 50;
 		//add load map onto field
 		for(int x = 0; x < MAP_WIDTH; x++){
 			for(int y = 0; y < MAP_HIGHT; y++){
-				if(map[x][y].equals("w")){
+				if(map[x][y] == 1){
 					if(board.getObject(x, y) == null){
 						board.addGameObject(new Wall(), x, y);
 					}
@@ -166,7 +166,7 @@ private int politieScore = 50;
 		int xSpot = (int) randomX;
 		int ySpot = (int) randomY;
 
-		if (map[xSpot][ySpot] == "e" && map[xSpot][ySpot] != "w") {
+		if (gameBoard.getObject(xSpot, ySpot)== null) {
 			politie.add(new Police());
 			getGameBoard().addGameObject(politie.get(politie.size() - 1),
 					xSpot, ySpot);
@@ -174,20 +174,20 @@ private int politieScore = 50;
 			addPolice();
 		}
 	}
-	
+	/**
 	public void addWietToMap() {
 		double randomX = (Math.random() * MAP_WIDTH);
 		double randomY = (Math.random() * MAP_HIGHT);
 		int xSpot = (int) randomX;
 		int ySpot = (int) randomY;
 
-		if (map[xSpot][ySpot] == "e" && map[xSpot][ySpot] != "w") {
+		if (gameBoard.getObject(xSpot, ySpot)== null) {
 			getGameBoard().addGameObject(new Weed(), xSpot, ySpot);
 		} else {
 			addWietToMap();
 		}
 	}
-	
+	**/
 	public void enterShop(){
 		activity.gotoShopView();
 	}
@@ -364,7 +364,7 @@ private int politieScore = 50;
 		// Voegt politie toe als de speler een wiet object opppakt.
 		if (getScore() == politieScore) {
 			addPolice();
-			addWietToMap();
+			//addWietToMap();
 			politieScore = politieScore + 50;
 		}
 

@@ -84,10 +84,10 @@ public abstract class GameBoardView extends View implements Observer {
 	 * playerView
 	 * 
 	 */
-	private int xNFPlayer = 6;
-	private int xPFPlayer = 6;
-	private int yNFPlayer = 6;
-	private int yPFPlayer = 6;
+	private int xNFPlayer = 26;
+	private int xPFPlayer = 26;
+	private int yNFPlayer = 11;
+	private int yPFPlayer = 11;
 	private int playerX = 5;
 	private int playerY = 5;
 
@@ -259,8 +259,8 @@ public abstract class GameBoardView extends View implements Observer {
 			// Determine tile size and number of tiles
 			if (fixedGrid) {
 				// Fixed grid: number of tiles stays the same, tile size calculated
-				mTileSize = Math.min((int) Math.floor(w / 11),
-						(int) Math.floor(h / 11));
+				mTileSize = Math.min((int) Math.floor(w / 51),
+						(int) Math.floor(h / 21));
 				Log.d(TAG, "onSizeChanged: tile size is now " + mTileSize);
 			} else {
 				// Variable grid: tileSize is static, tile count changes
@@ -273,8 +273,8 @@ public abstract class GameBoardView extends View implements Observer {
 			// Tiles may not use the whole view, leaving a border. Calculate the
 			// size
 			// of it. (The game board is centered within the view).
-			borderSizeX = ((w - (mTileSize * 11)) / 2);
-			borderSizeY = ((h - (mTileSize * 11)) / 2);
+			borderSizeX = ((w - (mTileSize * 51)) / 2);
+			borderSizeY = ((h - (mTileSize * 21)) / 2);
 			Log.d(TAG, "onSizeChanged: border is now " + borderSizeX + ", "
 					+ borderSizeY);
 
@@ -424,12 +424,12 @@ public abstract class GameBoardView extends View implements Observer {
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		recalculateGrid();
-		int leftLine = -5;
-		int bottomLine = 5;
-		int rightLine = 5;
-		int topLine = -5;
-		int playerPointX = 5;
-		int playerPointY = 5;
+		int leftLine = -25;
+		int bottomLine = 10;
+		int rightLine = 25;
+		int topLine = -10;
+		int playerPointX = 25;
+		int playerPointY = 10;
 		
 		if (((playerX - xNFPlayer) >= 0)
 				&& ((playerX + xPFPlayer) < getWidth())
