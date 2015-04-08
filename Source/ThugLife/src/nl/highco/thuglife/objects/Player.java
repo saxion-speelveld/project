@@ -128,4 +128,8 @@ public class Player extends GameObject{
 	public void onTouched(GameBoard gameBoard) {
 		
 	}
+	
+	public int getOrientation() {
+		return orientation;
+	}
 }
