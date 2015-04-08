@@ -76,10 +76,14 @@ public class MainActivity extends Activity{
 		
 		//shop items/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		shopItems = new ArrayList<ShopItem>();
-		shopItems.add(new ShopItem("wiet", "speed +1", 20, 1));
-		shopItems.add(new ShopItem("was", "speed +3", 60, 5));
-		shopItems.add(new ShopItem("wasf", "speed +3", 60, 11));
-		shopItems.add(new ShopItem("wasw", "speed +3", 60,6));
+		shopItems.add(new ShopItem("wiet (rolled)", "speed +1", 2, 4));
+		shopItems.add(new ShopItem("hash", "speed +2", 4, 16));
+		shopItems.add(new ShopItem("cocaine", "speed +3", 6, 36));
+		shopItems.add(new ShopItem("heroine", "speed +4", 8, 64));
+		shopItems.add(new ShopItem("speed", "speed +5", 10, 100));
+		shopItems.add(new ShopItem("speed en coke", "speed +10", 20, 200));
+		shopItems.add(new ShopItem("speed speciaal", "speed +15", 30, 500));
+		shopItems.add(new ShopItem("speed speciaal en coke", "speed +20", 40,800));
 		
 		//shop///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		adapter = new ShopAdapter(this, 0, shopItems, game);
