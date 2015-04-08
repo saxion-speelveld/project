@@ -1,5 +1,6 @@
 package nl.highco.thuglife;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -13,6 +14,8 @@ import android.view.View;
 import nl.saxion.act.playground.model.Game;
 import nl.saxion.act.playground.model.GameBoard;
 import nl.highco.thuglife.objects.*;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 
 
 
@@ -24,6 +27,7 @@ public static final String TAG = "thug game";
 private MainActivity activity;
 private int money, score, wiet;
 private int politieScore = 50;
+private MediaPlayer mPlayer;
 
 //map size
 	private final static int MAP_WIDTH = 100;
@@ -115,32 +119,23 @@ private int politieScore = 50;
 		
 		//add player
 		player = new Player();
-		board.addGameObject(player, 26, 11);
+		board.addGameObject(player, 60, 55);
 		
 		// add shop
-		board.addGameObject(new Shop(), 5, 10);
-		/**
+		board.addGameObject(new Shop(), 50, 60);
+		
 		//wiet
-		board.addGameObject(new Weed(), 3, 15);
+		board.addGameObject(new Weed(), 65, 65);
 		
-		double randomX = (Math.random() * MAP_WIDTH);
-		double randomY = (Math.random() * MAP_HIGHT);
-		int xSpot = (int) randomX;
-		int ySpot = (int) randomY;
-		
-		if (gameBoard.getObject(xSpot, ySpot)== null) {
-			getGameBoard().addGameObject(new Weed(), xSpot, ySpot);
-		}
-		**/
 		//Police
 		politie.clear();
 		
 		Police p1 = new Police();
 		Police p2 = new Police();
 		Police p3 = new Police();
-		board.addGameObject(p1, 5, 4);
-		board.addGameObject(p2, 10, 10);
-		board.addGameObject(p3, 16, 16);
+		board.addGameObject(p1, 28, 30);
+		board.addGameObject(p2, 30, 35);
+		board.addGameObject(p3, 40, 45);
 
 		politie.add(p1);
 		politie.add(p2);
@@ -165,8 +160,8 @@ private int politieScore = 50;
 		double randomY = (Math.random() * MAP_HIGHT);
 		int xSpot = (int) randomX;
 		int ySpot = (int) randomY;
-
-		if (gameBoard.getObject(xSpot, ySpot)== null) {
+		
+		if (gameBoard.getObject(xSpot, ySpot)== null && xSpot > 25 && ySpot > 10) {
 			politie.add(new Police());
 			getGameBoard().addGameObject(politie.get(politie.size() - 1),
 					xSpot, ySpot);
@@ -174,20 +169,20 @@ private int politieScore = 50;
 			addPolice();
 		}
 	}
-	/**
+	
 	public void addWietToMap() {
 		double randomX = (Math.random() * MAP_WIDTH);
 		double randomY = (Math.random() * MAP_HIGHT);
 		int xSpot = (int) randomX;
 		int ySpot = (int) randomY;
-
-		if (gameBoard.getObject(xSpot, ySpot)== null) {
+		
+		if (gameBoard.getObject(xSpot, ySpot)== null && xSpot > 25 && ySpot > 10) {
 			getGameBoard().addGameObject(new Weed(), xSpot, ySpot);
 		} else {
 			addWietToMap();
 		}
 	}
-	**/
+	
 	public void enterShop(){
 		activity.gotoShopView();
 	}
@@ -364,10 +359,26 @@ private int politieScore = 50;
 		// Voegt politie toe als de speler een wiet object opppakt.
 		if (getScore() == politieScore) {
 			addPolice();
-			//addWietToMap();
+			policeMusic();
+			addWietToMap();
 			politieScore = politieScore + 50;
 		}
 
+	}
+	
+	private void policeMusic() {
+		mPlayer = MediaPlayer.create(activity, R.raw.soundofdapolice);
+		mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+		try {
+			mPlayer.prepare();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mPlayer.start();
 	}
 	
 }
