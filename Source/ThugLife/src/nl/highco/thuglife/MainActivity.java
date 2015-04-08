@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import nl.highco.thuglife.shop.*;
 import nl.highco.thuglife.view.GameOverFragment;
+import nl.highco.thuglife.objects.*;
 
 public class MainActivity extends Activity{
 	private ThugGame game;
@@ -53,27 +54,6 @@ public class MainActivity extends Activity{
 		textViewWietG = (TextView) findViewById(R.id.textViewWietG);
 		textViewWietS = (TextView) findViewById(R.id.textViewWietS);
 
-		btnBackToMenu = (Button) findViewById(R.id.btnBackToMenu);
-		btnBackToMenu.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				game.stopTimers();
-				gotoMainMenu();
-			}
-		});
-
-		buttonReset = (Button) findViewById(R.id.buttonReset);
-		buttonReset.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				game.reset();
-				btnStartResume.setText("Start");
-				btnStartResume.setVisibility(View.VISIBLE);
-			}
-		});
-		
 		//shop items/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		shopItems = new ArrayList<ShopItem>();
 		shopItems.add(new ShopItem("wiet (rolled)", "speed +1", 2, 4));
@@ -93,11 +73,31 @@ public class MainActivity extends Activity{
 		
 		backButton = (Button) findViewById(R.id.backButton);
 		backButton.setOnClickListener(new View.OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
+				
+				if (game.getPlayer().getOrientation() == 0) {
+					game.getPlayer().setRichtingLinks();
+				} else if(game.getPlayer().getOrientation() == 1) {
+					game.getPlayer().setRichtingBeneden();
+				} else if(game.getPlayer().getOrientation() == 2) {
+					game.getPlayer().setRichtingRechts();
+				} else if(game.getPlayer().getOrientation() == 3) {
+					game.getPlayer().setRichtingOmhoog();
+				}
+				// police
+				game.startPoliceTimer();
+				// player
+				int playerSpeed = 250;
+				for(ShopItem s : shopItems){
+					if(s.getBought()){
+						playerSpeed -= s.getBonus();
+					}
+					
+				}
+				game.startPlayerTimer(playerSpeed);
 				gotoGameView();
-				btnStartResume.setVisibility(View.VISIBLE);
 			}
 		});
 		
@@ -134,7 +134,7 @@ public class MainActivity extends Activity{
 				gotoMainMenu();
 			}
 		});
-		////////////////////////////////
+		
 		editTextNumberSell = (EditText) findViewById(R.id.editTextNumberSell);
 		editTextNumberSell.addTextChangedListener(new TextWatcher() {
 			
@@ -176,28 +176,6 @@ public class MainActivity extends Activity{
 			}
 		});
 
-		btnStartResume = (Button) findViewById(R.id.btnStartResume);
-		btnStartResume.setVisibility(View.GONE);
-		btnStartResume.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// police
-				game.startPoliceTimer();
-				// player
-				int playerSpeed = 250;
-				for(ShopItem s : shopItems){
-					if(s.getBought()){
-						playerSpeed -= s.getBonus();
-					}
-					
-				}
-				game.startPlayerTimer(playerSpeed);
-				
-				btnStartResume.setVisibility(View.GONE);
-				btnStartResume.setText("Hervatten");
-			}
-		});
 		fragmentManager = getFragmentManager();
 		fragment = new GameOverFragment();
 		gotoMainMenu();
