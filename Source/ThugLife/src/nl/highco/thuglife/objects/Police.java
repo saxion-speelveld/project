@@ -51,9 +51,9 @@ public class Police extends GameObject {
 		int myX = getPositionX();
 		int myY = getPositionY();
 		boolean playerFound = false;
-		for (int x = (myX - 4); x < (myX + 4); x++) {
-			for (int y = (myY - 4); y < (myY + 4); y++) {
-				if (x >= 0 && y >= 0 && x <= 19 && y <= 19) {
+		for (int x = (myX - 5); x < (myX + 5); x++) {
+			for (int y = (myY - 5); y < (myY + 5); y++) {
+				if (x >= 0 && y >= 0 && x < gameBoard.getWidth() && y < gameBoard.getHeight()) {
 					if (gameBoard.getObject(x, y) != null) {
 						Log.i("Police AI", "Object Found");
 						GameObject player = gameBoard.getObject(x, y);
@@ -107,7 +107,7 @@ public class Police extends GameObject {
 		} else if (orientation == 2) {
 			newPosX = getPositionX() - 1;
 			newPosY = getPositionY();
-		} else/* if (orientation == 3) */{
+		} else if (orientation == 3) {
 			newPosX = getPositionX();
 			newPosY = getPositionY() + 1;
 		}
