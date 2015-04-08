@@ -28,6 +28,7 @@ private MainActivity activity;
 private int money, score, wiet;
 private int politieScore = 50;
 private MediaPlayer mPlayer;
+public boolean isPlaying = false;
 
 //map size
 	private final static int MAP_WIDTH = 100;
@@ -119,13 +120,18 @@ private MediaPlayer mPlayer;
 		
 		//add player
 		player = new Player();
-		board.addGameObject(player, 60, 55);
+		board.addGameObject(player, 55, 50);
 		
 		// add shop
 		board.addGameObject(new Shop(), 50, 60);
 		
 		//wiet
-		board.addGameObject(new Weed(), 65, 65);
+		board.addGameObject(new Weed(), 42, 51);
+		board.addGameObject(new Weed(), 80, 95);
+		board.addGameObject(new Weed(), 75, 76);
+		board.addGameObject(new Weed(), 22, 64);
+		board.addGameObject(new Weed(), 98, 98);
+		board.addGameObject(new Weed(), 83, 84);
 		
 		//Police
 		politie.clear();
@@ -134,8 +140,11 @@ private MediaPlayer mPlayer;
 		Police p2 = new Police();
 		Police p3 = new Police();
 		board.addGameObject(p1, 28, 30);
-		board.addGameObject(p2, 30, 35);
-		board.addGameObject(p3, 40, 45);
+		board.addGameObject(p2, 31, 38);
+		board.addGameObject(p3, 46, 47);
+		board.addGameObject(p1, 76, 34);
+		board.addGameObject(p2, 84, 88);
+		board.addGameObject(p3, 52, 63);
 
 		politie.add(p1);
 		politie.add(p2);
@@ -156,12 +165,10 @@ private MediaPlayer mPlayer;
 	}
 	
 	public void addPolice() {
-		double randomX = (Math.random() * MAP_WIDTH);
-		double randomY = (Math.random() * MAP_HIGHT);
-		int xSpot = (int) randomX;
-		int ySpot = (int) randomY;
+		int xSpot = randomX();
+		int ySpot = randomY();
 		
-		if (gameBoard.getObject(xSpot, ySpot)== null && xSpot > 25 && ySpot > 10) {
+		if (gameBoard.getObject(xSpot, ySpot)== null && xSpot > 26 && ySpot > 11) {
 			politie.add(new Police());
 			getGameBoard().addGameObject(politie.get(politie.size() - 1),
 					xSpot, ySpot);
@@ -171,16 +178,24 @@ private MediaPlayer mPlayer;
 	}
 	
 	public void addWietToMap() {
-		double randomX = (Math.random() * MAP_WIDTH);
-		double randomY = (Math.random() * MAP_HIGHT);
-		int xSpot = (int) randomX;
-		int ySpot = (int) randomY;
+		int xSpot = randomX();
+		int ySpot = randomY();
 		
-		if (gameBoard.getObject(xSpot, ySpot)== null && xSpot > 25 && ySpot > 10) {
+		if (gameBoard.getObject(xSpot, ySpot)== null && xSpot > 26 && ySpot > 11) {
 			getGameBoard().addGameObject(new Weed(), xSpot, ySpot);
 		} else {
 			addWietToMap();
 		}
+	}
+	
+	public int randomX() {
+		int randomX = (int)(Math.random() * MAP_WIDTH);
+		return randomX;
+	}
+	
+	public int randomY() {
+		int randomY = (int)(Math.random() * MAP_HIGHT);
+		return randomY;
 	}
 	
 	public void enterShop(){
@@ -269,7 +284,7 @@ private MediaPlayer mPlayer;
 	
 	// police timer
 	public void startPoliceTimer() {
-	
+		isPlaying = true;
 		// maakt een timer die de handler en de runnable oproept elke halve
 		// seconde.
 		policeTimer = new Timer();
@@ -287,7 +302,7 @@ private MediaPlayer mPlayer;
 	
 	//player timer
 	public void startPlayerTimer(int speed) {
-		
+		isPlaying = true;
 		// maakt een timer die de handler en de runnable oproept elke halve
 		// seconde.
 		playerTimer = new Timer();
@@ -344,6 +359,7 @@ private MediaPlayer mPlayer;
 	public void stopTimers(){
 		stopPlayerTimer();
 		stopPoliceTimer();
+		isPlaying = false;
 	}
 	
 	public void update(Observable observable, Object data) {
