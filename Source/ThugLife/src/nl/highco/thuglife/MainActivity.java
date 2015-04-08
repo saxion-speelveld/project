@@ -7,6 +7,8 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,14 +17,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import nl.highco.thuglife.shop.*;
 import nl.highco.thuglife.view.GameOverFragment;
-import nl.highco.thuglife.objects.*;
 
 public class MainActivity extends Activity{
 	private ThugGame game;
 	private ThugGameBoardView gameView;
 	private TextView textView, textViewScoreG, textViewMoneyG, textViewMoneyS, textViewWietG, textViewWietS;
 	private ListView listView;
-	private Button btnBackToMenu, buttonReset, backButton, btnStartResume, buttonReturnM;
+	private Button backButton,buttonReturnM;
 	private Button Start, helpButton;
 	private Button sellButton;
 	private LinearLayout mainMenu, layoutShop, layoutGame, layoutHelp;
@@ -244,6 +245,21 @@ public class MainActivity extends Activity{
 		layoutHelp.setVisibility(View.VISIBLE);
 	}
 	
-	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		int id = item.getItemId();
+		if (id == R.id.return_to_main_menu) {
+			if(game.isPlaying){
+				game.stopTimers();
+			}
+			gotoMainMenu();
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	
 }
