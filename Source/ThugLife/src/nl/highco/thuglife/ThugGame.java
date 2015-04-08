@@ -129,7 +129,7 @@ public boolean isPlaying = false;
 		board.addGameObject(new Weed(), 42, 51);
 		board.addGameObject(new Weed(), 80, 95);
 		board.addGameObject(new Weed(), 75, 76);
-		board.addGameObject(new Weed(), 22, 64);
+		board.addGameObject(new Weed(), 31, 64);
 		board.addGameObject(new Weed(), 98, 98);
 		board.addGameObject(new Weed(), 83, 84);
 		
