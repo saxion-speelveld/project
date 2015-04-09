@@ -140,16 +140,24 @@ public boolean isPlaying = false;
 		Police p1 = new Police();
 		Police p2 = new Police();
 		Police p3 = new Police();
+		Police p4 = new Police();
+		Police p5 = new Police();
+		Police p6 = new Police();
+		
 		board.addGameObject(p1, 28, 30);
 		board.addGameObject(p2, 31, 38);
 		board.addGameObject(p3, 46, 47);
-		board.addGameObject(p1, 76, 34);
-		board.addGameObject(p2, 84, 88);
-		board.addGameObject(p3, 52, 63);
+		board.addGameObject(p4, 76, 34);
+		board.addGameObject(p5, 84, 88);
+		board.addGameObject(p6, 52, 63);
 
 		politie.add(p1);
 		politie.add(p2);
 		politie.add(p3);
+		politie.add(p4);
+		politie.add(p5);
+		politie.add(p6);
+		
 		/////
 		
 		//add load map onto field
@@ -331,6 +339,7 @@ public boolean isPlaying = false;
 			for(int i = 0; i < politie.size(); i++) {
 				politie.get(i).onUpdate(gameBoard);
 			}
+			gameBoard.updateView();
 		}
 	};
 	

@@ -130,7 +130,7 @@ public class Police extends GameObject {
 		} else {
 			// Move object and redraw
 			gameBoard.moveObject(this, newPosX, newPosY);
-			gameBoard.updateView();
+			//gameBoard.updateView();
 		}
 	}
 

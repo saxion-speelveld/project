@@ -423,7 +423,7 @@ public abstract class GameBoardView extends View implements Observer {
 	@Override
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		recalculateGrid();
+		//recalculateGrid();
 		int leftLine = -25;
 		int bottomLine = 10;
 		int rightLine = 25;
@@ -442,8 +442,7 @@ public abstract class GameBoardView extends View implements Observer {
 			canvas.drawBitmap(mTileGrid[playerX][playerY][1], drawAtX, drawAtY,
 					mPaint);
 			// done
-			int l = 0;
-			int d = 10;
+			
 			for (int x = 1; x <= rightLine; x++) {
 				for (int y = 0; y <= bottomLine; y++) {
 					for (int layer = 0; layer < NUM_BITMAP_LAYERS; layer++) {
@@ -459,8 +458,7 @@ public abstract class GameBoardView extends View implements Observer {
 				
 			}
 			
-			l = 0;
-			d = 0;
+			
 			for (int x = leftLine; x < 1; x++) {
 				for (int y = 1; y <= bottomLine; y++) {
 					for (int layer = 0; layer < NUM_BITMAP_LAYERS; layer++) {
@@ -476,8 +474,7 @@ public abstract class GameBoardView extends View implements Observer {
 				
 			}
 			
-			l = 10;
-			d = 10;
+		
 			for (int x = leftLine; x < 0; x++) {
 				for (int y = topLine; y < 1; y++) {
 					for (int layer = 0; layer < NUM_BITMAP_LAYERS; layer++) {
@@ -493,8 +490,7 @@ public abstract class GameBoardView extends View implements Observer {
 				
 			}
 			
-			l =2;
-			d = 0;
+		
 			for (int x = 0; x <= rightLine; x++) {
 				for (int y = topLine; y <= 0; y++) {
 					for (int layer = 0; layer < NUM_BITMAP_LAYERS; layer++) {
@@ -507,7 +503,7 @@ public abstract class GameBoardView extends View implements Observer {
 					}
 					
 				}
-				l++;
+			
 				
 			}
 
