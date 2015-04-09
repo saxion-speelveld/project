@@ -266,6 +266,7 @@ public class MainActivity extends Activity{
 		layoutGame.setVisibility(View.GONE);
 		layoutHelp.setVisibility(View.GONE);
 		layoutStatics.setVisibility(View.GONE);
+		staticsticsHighscore.setText(game.getHighscore() + "");
 	}
 	
 	public void gotoHelp(){

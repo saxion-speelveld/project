@@ -25,7 +25,8 @@ public class ThugGame extends Game implements Observer{
 public static final String TAG = "thug game";
 
 private MainActivity activity;
-private int money, score, wiet, highscore;
+private int money, score, wiet;
+private int highscore = 0;
 private int politieScore = 50;
 private MediaPlayer mPlayer;
 public boolean isPlaying = false;
