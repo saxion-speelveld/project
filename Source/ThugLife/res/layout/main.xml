@@ -81,6 +81,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Wiet:" />
+                
+                 <TextView
+                    android:id="@+id/textViewHighscore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Highscore:" />
 
             </LinearLayout>
 
@@ -190,6 +197,7 @@
         android:id="@+id/helpView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/holo_green_light"
         android:layout_weight=".96"
         android:orientation="vertical"
         android:visibility="gone" >
@@ -206,6 +214,40 @@
             android:layout_height="wrap_content"
             android:text="Back" />
 
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/statisticsView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_green_light"
+        android:layout_weight=".96"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/textHighscore"
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="30dp"
+            android:text="HighScore"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="50dp" />
+
+        <TextView
+            android:id="@+id/hoogsteScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="30dp" />
+
+        <Button
+            android:id="@+id/statiscticsBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+        	
     </LinearLayout>
 
 </LinearLayout>

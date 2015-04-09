@@ -25,7 +25,7 @@ public class ThugGame extends Game implements Observer{
 public static final String TAG = "thug game";
 
 private MainActivity activity;
-private int money, score, wiet;
+private int money, score, wiet, highscore;
 private int politieScore = 50;
 private MediaPlayer mPlayer;
 public boolean isPlaying = false;
@@ -231,9 +231,11 @@ public boolean isPlaying = false;
 	 */
 	public void updateScoreWCWW(){
 		score += 50;
+		if(score > highscore){
+			highscore = score;
+		}
 		gameBoard.updateView();
 	}
-	
 	/**
 	 * adds one weed
 	 */
@@ -264,6 +266,10 @@ public boolean isPlaying = false;
 	 */
 	public int getScore(){
 		return score;
+	}
+	
+	public int getHighscore(){
+		return highscore;
 	}
 	/**
 	 * returns the total amount of wiet the player has
@@ -372,6 +378,7 @@ public boolean isPlaying = false;
 		activity.updateMoneyLabels();
 		activity.updateScoreLabel();
 		activity.updateWietLabels();
+		activity.updateHighscoreLabel();
 		// Voegt politie toe als de speler een wiet object opppakt.
 		if (getScore() == politieScore) {
 			addPolice();

@@ -21,12 +21,12 @@ import nl.highco.thuglife.view.GameOverFragment;
 public class MainActivity extends Activity{
 	private ThugGame game;
 	private ThugGameBoardView gameView;
-	private TextView textView, textViewScoreG, textViewMoneyG, textViewMoneyS, textViewWietG, textViewWietS;
+	private TextView textView, textViewScoreG, textViewMoneyG, textViewMoneyS, textViewWietG, textViewWietS, textViewHighscore, staticsticsHighscore;
 	private ListView listView;
-	private Button backButton,buttonReturnM;
+	private Button backButton,buttonReturnM, backButtonStatistics, goToStatsButton;;
 	private Button Start, helpButton;
 	private Button sellButton;
-	private LinearLayout mainMenu, layoutShop, layoutGame, layoutHelp;
+	private LinearLayout mainMenu, layoutShop, layoutGame, layoutHelp, layoutStatics;
 	private ArrayList<ShopItem> shopItems;
 	private FragmentManager fragmentManager;
 	private GameOverFragment fragment;
@@ -43,6 +43,7 @@ public class MainActivity extends Activity{
 		layoutGame = (LinearLayout) findViewById(R.id.gameView);
 		layoutShop = (LinearLayout) findViewById(R.id.shopView);
 		layoutHelp = (LinearLayout) findViewById(R.id.helpView);
+		layoutStatics = (LinearLayout) findViewById(R.id.statisticsView);
 
 		// Game
 		gameView = (ThugGameBoardView) findViewById(R.id.game);
@@ -54,6 +55,8 @@ public class MainActivity extends Activity{
 		textViewMoneyS = (TextView) findViewById(R.id.textViewMoneyS);
 		textViewWietG = (TextView) findViewById(R.id.textViewWietG);
 		textViewWietS = (TextView) findViewById(R.id.textViewWietS);
+		textViewHighscore = (TextView) findViewById(R.id.textViewHighscore);
+		staticsticsHighscore = (TextView) findViewById(R.id.hoogsteScore);
 
 		//shop items/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		shopItems = new ArrayList<ShopItem>();
@@ -176,6 +179,26 @@ public class MainActivity extends Activity{
 				game.startPlayerTimer(250);
 			}
 		});
+		
+		backButtonStatistics = (Button) findViewById(R.id.statiscticsBackButton);
+		backButtonStatistics.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				gotoMainMenu();
+				
+			}
+		});
+		
+		goToStatsButton = (Button) findViewById(R.id.statsButton);
+		goToStatsButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				gotoStatics();
+				
+			}
+		});
 
 		fragmentManager = getFragmentManager();
 		fragment = new GameOverFragment();
@@ -203,6 +226,10 @@ public class MainActivity extends Activity{
 	
 	public void updateScoreLabel(){
 		textViewScoreG.setText("Score: "+ game.getScore());
+	}
+	
+	public void updateHighscoreLabel(){
+		textViewHighscore.setText("Highscore:" + game.getHighscore());
 	}
 	
 	public void updateWietLabels(){
@@ -238,11 +265,17 @@ public class MainActivity extends Activity{
 		layoutShop.setVisibility(View.GONE);
 		layoutGame.setVisibility(View.GONE);
 		layoutHelp.setVisibility(View.GONE);
+		layoutStatics.setVisibility(View.GONE);
 	}
 	
 	public void gotoHelp(){
 		mainMenu.setVisibility(View.GONE);
 		layoutHelp.setVisibility(View.VISIBLE);
+	}
+	
+	public void gotoStatics(){
+		mainMenu.setVisibility(View.GONE);
+		layoutStatics.setVisibility(View.VISIBLE);
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
