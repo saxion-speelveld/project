@@ -18,37 +18,37 @@ import android.widget.TextView;
 import nl.highco.thuglife.shop.*;
 import nl.highco.thuglife.view.GameOverFragment;
 
-public class MainActivity extends Activity{
+public class MainActivity extends Activity {
 	private ThugGame game;
 	private ThugGameBoardView gameView;
-	private TextView textView, textViewScoreG, textViewMoneyG, textViewMoneyS, textViewWietG, textViewWietS, textViewHighscore, staticsticsHighscore;
+	private TextView textView, textViewScoreG, textViewMoneyG, textViewMoneyS,
+			textViewWietG, textViewWietS, textViewHighscore,staticsticsHighscore;
 	private ListView listView;
-	private Button backButton,buttonReturnM, backButtonStatistics, goToStatsButton;;
+	private Button backButton, goToStatsButton;
 	private Button Start, helpButton;
 	private Button sellButton;
 	private LinearLayout mainMenu, layoutShop, layoutGame, layoutHelp, layoutStatics;
 	private ArrayList<ShopItem> shopItems;
 	private FragmentManager fragmentManager;
 	private GameOverFragment fragment;
-	private EditText editTextNumberSell; 
-	private ShopAdapter adapter; 
-	
-	
+	private EditText editTextNumberSell;
+	private ShopAdapter adapter;
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		// Layouts
+		// Layouts///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		mainMenu = (LinearLayout) findViewById(R.id.mainMenu);
 		layoutGame = (LinearLayout) findViewById(R.id.gameView);
 		layoutShop = (LinearLayout) findViewById(R.id.shopView);
 		layoutHelp = (LinearLayout) findViewById(R.id.helpView);
 		layoutStatics = (LinearLayout) findViewById(R.id.statisticsView);
 
-		// Game
+		// Game//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		gameView = (ThugGameBoardView) findViewById(R.id.game);
 		game = new ThugGame(this);
-
+		// textViews/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		textView = (TextView) findViewById(R.id.textViewCost);
 		textViewScoreG = (TextView) findViewById(R.id.textViewScoreG);
 		textViewMoneyG = (TextView) findViewById(R.id.textViewMoneyG);
@@ -58,7 +58,7 @@ public class MainActivity extends Activity{
 		textViewHighscore = (TextView) findViewById(R.id.textViewHighscore);
 		staticsticsHighscore = (TextView) findViewById(R.id.hoogsteScore);
 
-		//shop items/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// shop items////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		shopItems = new ArrayList<ShopItem>();
 		shopItems.add(new ShopItem("wiet (rolled)", "speed +1", 2, 4));
 		shopItems.add(new ShopItem("hash", "speed +2", 4, 16));
@@ -67,108 +67,104 @@ public class MainActivity extends Activity{
 		shopItems.add(new ShopItem("speed", "speed +5", 10, 100));
 		shopItems.add(new ShopItem("speed en coke", "speed +10", 20, 200));
 		shopItems.add(new ShopItem("speed speciaal", "speed +15", 30, 500));
-		shopItems.add(new ShopItem("speed speciaal en coke", "speed +20", 40,800));
-		
-		//shop///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		shopItems.add(new ShopItem("speed speciaal en coke", "speed +20", 40,
+				800));
+
+		// shop//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		adapter = new ShopAdapter(this, 0, shopItems, game);
 		listView = (ListView) findViewById(R.id.listView1);
 		listView.setAdapter(adapter);
-		
-		
+
 		backButton = (Button) findViewById(R.id.backButton);
 		backButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+
 				if (game.getPlayer().getOrientation() == 0) {
 					game.getPlayer().setRichtingLinks();
-				} else if(game.getPlayer().getOrientation() == 1) {
+				} else if (game.getPlayer().getOrientation() == 1) {
 					game.getPlayer().setRichtingBeneden();
-				} else if(game.getPlayer().getOrientation() == 2) {
+				} else if (game.getPlayer().getOrientation() == 2) {
 					game.getPlayer().setRichtingRechts();
-				} else if(game.getPlayer().getOrientation() == 3) {
+				} else if (game.getPlayer().getOrientation() == 3) {
 					game.getPlayer().setRichtingOmhoog();
 				}
 				// police
 				game.startPoliceTimer();
 				// player
 				int playerSpeed = 250;
-				for(ShopItem s : shopItems){
-					if(s.getBought()){
+				for (ShopItem s : shopItems) {
+					if (s.getBought()) {
 						playerSpeed -= s.getBonus();
 					}
-					
+
 				}
 				game.startPlayerTimer(playerSpeed);
 				gotoGameView();
 			}
 		});
-		
+
 		sellButton = (Button) findViewById(R.id.sellButton);
 		sellButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				int sellPrice = 5;
-				
-				game.deductWiet(Integer.parseInt(""+editTextNumberSell.getText()));
-				game.addMoney(sellPrice * (Integer.parseInt(""+editTextNumberSell.getText())));
+
+				game.deductWiet(Integer.parseInt(""
+						+ editTextNumberSell.getText()));
+				game.addMoney(sellPrice
+						* (Integer.parseInt("" + editTextNumberSell.getText())));
 				// progress naar 0
-				editTextNumberSell.setText(0+"");
+				editTextNumberSell.setText(0 + "");
 				// listView refresh
 				adapter.notifyDataSetChanged();
 			}
 		});
+
+		editTextNumberSell = (EditText) findViewById(R.id.editTextNumberSell);
+		editTextNumberSell.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (s.toString().compareTo("") == 0) {
+					editTextNumberSell.setText("" + 0);
+					return;
+				}
+				if (Integer.parseInt(s + "") > game.getWiet()) {
+					editTextNumberSell.setText(game.getWiet() + "");
+				}
+
+			}
+		});
+
+		//buttons for transition screens/////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+		// button to go to the help screen
 		helpButton = (Button) findViewById(R.id.helpButton);
 		helpButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				gotoHelp();
 			}
 		});
-		
-		buttonReturnM = (Button) findViewById(R.id.buttonReturnM);
-		buttonReturnM.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				gotoMainMenu();
-			}
-		});
-		
-		editTextNumberSell = (EditText) findViewById(R.id.editTextNumberSell);
-		editTextNumberSell.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				if(s.toString().compareTo("") == 0){
-					editTextNumberSell.setText(""+0);
-					return;
-				}
-				if(Integer.parseInt(s + "") > game.getWiet()){
-					editTextNumberSell.setText(game.getWiet()+"");
-				}
-				
-			}
-		});
-		
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// button to start the game
 		Start = (Button) findViewById(R.id.startButton);
 		Start.setOnClickListener(new View.OnClickListener() {
 
@@ -179,74 +175,67 @@ public class MainActivity extends Activity{
 				game.startPlayerTimer(250);
 			}
 		});
-		
-		backButtonStatistics = (Button) findViewById(R.id.statiscticsBackButton);
-		backButtonStatistics.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				gotoMainMenu();
-				
-			}
-		});
-		
+		// button to see the high score
 		goToStatsButton = (Button) findViewById(R.id.statsButton);
 		goToStatsButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				gotoStatics();
-				
+
 			}
 		});
-
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		fragmentManager = getFragmentManager();
 		fragment = new GameOverFragment();
 		gotoMainMenu();
 	}
-	
+
 	public ThugGameBoardView getGameBoardView() {
 		return gameView;
 	}
-	//shop reset
-	public void resetShop(){
-		for(ShopItem s : shopItems){
+
+	// method to set all the items bought variable to false
+	public void resetShop() {
+		for (ShopItem s : shopItems) {
 			s.setBought(false);
 		}
 	}
-	
-	public void gotoGameOverScreen(){
-		fragmentManager.beginTransaction().replace(android.R.id.content,fragment ).commit();
+
+	// method to launch the game over screen
+	public void gotoGameOverScreen() {
+		fragmentManager.beginTransaction()
+				.replace(android.R.id.content, fragment).commit();
 	}
-	
+
 	//label methods//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void setGameState(String s) {
 		textView.setText(s + "");
 	}
-	
-	public void updateScoreLabel(){
-		textViewScoreG.setText("Score: "+ game.getScore());
+
+	public void updateScoreLabel() {
+		textViewScoreG.setText("Score: " + game.getScore());
 	}
-	
-	public void updateHighscoreLabel(){
+
+	public void updateHighscoreLabel() {
 		textViewHighscore.setText("Highscore:" + game.getHighscore());
 	}
-	
-	public void updateWietLabels(){
+
+	public void updateWietLabels() {
 		textViewWietG.setText("Wiet: " + game.getWiet());
 		textViewWietS.setText("Wiet: " + game.getWiet());
 	}
-	
-	public void updateMoneyLabels(){
-		textViewMoneyG.setText("Money: "+ game.getMoney());
-		textViewMoneyS.setText("Money: "+ game.getMoney());
-	}
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
 
+	public void updateMoneyLabels() {
+		textViewMoneyG.setText("Money: " + game.getMoney());
+		textViewMoneyS.setText("Money: " + game.getMoney());
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//methods for transition between screens/////////////////////////////////////////////////////////////////////////////////////////////////
 	public void gotoShopView() {
-		editTextNumberSell.setText(0+"");
+		editTextNumberSell.setText(0 + "");
 		mainMenu.setVisibility(View.GONE);
 		layoutGame.setVisibility(View.GONE);
 		layoutShop.setVisibility(View.VISIBLE);
@@ -268,17 +257,18 @@ public class MainActivity extends Activity{
 		layoutStatics.setVisibility(View.GONE);
 		staticsticsHighscore.setText(game.getHighscore() + "");
 	}
-	
-	public void gotoHelp(){
+
+	public void gotoHelp() {
 		mainMenu.setVisibility(View.GONE);
 		layoutHelp.setVisibility(View.VISIBLE);
 	}
-	
-	public void gotoStatics(){
+
+	public void gotoStatics() {
 		mainMenu.setVisibility(View.GONE);
 		layoutStatics.setVisibility(View.VISIBLE);
 	}
-	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
@@ -288,12 +278,12 @@ public class MainActivity extends Activity{
 
 		int id = item.getItemId();
 		if (id == R.id.return_to_main_menu) {
-			if(game.isPlaying){
+			if (game.isPlaying) {
 				game.stopTimers();
 			}
 			gotoMainMenu();
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 }

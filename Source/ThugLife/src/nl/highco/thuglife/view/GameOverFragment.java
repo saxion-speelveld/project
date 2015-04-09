@@ -2,7 +2,6 @@ package nl.highco.thuglife.view;
 
 import nl.highco.thuglife.MainActivity;
 import nl.highco.thuglife.R;
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;

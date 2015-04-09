@@ -256,6 +256,7 @@ public abstract class GameBoardView extends View implements Observer {
 				&& ((playerX + xPFPlayer) < getWidth())
 				&& ((playerY - yNFPlayer) >= 0)
 				&& ((playerY + yPFPlayer) < getHeight())) {
+			
 			// Determine tile size and number of tiles
 			if (fixedGrid) {
 				// Fixed grid: number of tiles stays the same, tile size calculated
@@ -288,7 +289,9 @@ public abstract class GameBoardView extends View implements Observer {
 
 			// Update the array of the bitmaps, since that may have now changed
 			determineGridBitmaps();
-		}else{
+			
+		}else{  //on the off chance that the the player enters the buffer (buffer is the empty space around the map to prevent arrays from going in negative)
+			
 			// Determine tile size and number of tiles
 			if (fixedGrid) {
 				// Fixed grid: number of tiles stays the same, tile size calculated
@@ -375,7 +378,8 @@ public abstract class GameBoardView extends View implements Observer {
 				}
 			}
 			
-		}else{
+		}else{ //on the off chance that the the player enters the buffer (buffer is the empty space around the map to prevent arrays from going in negative)
+			
 			mTileGrid = new Bitmap[tileCountX][tileCountY][NUM_BITMAP_LAYERS];
 				// For each tile...
 			for (int x = 0; x < tileCountX; x++) {
@@ -423,11 +427,12 @@ public abstract class GameBoardView extends View implements Observer {
 	@Override
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		//recalculateGrid();
+		// how far the player can look
 		int leftLine = -25;
 		int bottomLine = 10;
 		int rightLine = 25;
 		int topLine = -10;
+		// where the player has to be in the view
 		int playerPointX = 25;
 		int playerPointY = 10;
 		
@@ -435,22 +440,17 @@ public abstract class GameBoardView extends View implements Observer {
 				&& ((playerX + xPFPlayer) < getWidth())
 				&& ((playerY - yNFPlayer) >= 0)
 				&& ((playerY + yPFPlayer) < getHeight())) {
-			// For each tile on the board ...
 			
 			int drawAtX = borderSizeX + playerPointX * mTileSize;
 			int drawAtY = borderSizeY + playerPointY * mTileSize;
-			canvas.drawBitmap(mTileGrid[playerX][playerY][1], drawAtX, drawAtY,
-					mPaint);
-			// done
-			
+			canvas.drawBitmap(mTileGrid[playerX][playerY][1], drawAtX, drawAtY,mPaint);
 			for (int x = 1; x <= rightLine; x++) {
 				for (int y = 0; y <= bottomLine; y++) {
 					for (int layer = 0; layer < NUM_BITMAP_LAYERS; layer++) {
 						if (mTileGrid[playerX + x][playerY + y][layer] != null) {
 							drawAtX = borderSizeX + (x+playerPointX) * mTileSize;
 							drawAtY = borderSizeY + (y+playerPointY) * mTileSize;
-							canvas.drawBitmap(mTileGrid[playerX + x][playerY
-									+ y][layer], drawAtX, drawAtY, mPaint);
+							canvas.drawBitmap(mTileGrid[playerX + x][playerY + y][layer], drawAtX, drawAtY, mPaint);
 						}
 					}
 					
@@ -465,8 +465,7 @@ public abstract class GameBoardView extends View implements Observer {
 						if (mTileGrid[playerX + x][playerY + y][layer] != null) {
 							drawAtX = borderSizeX + (x + playerPointX) * mTileSize;
 							drawAtY = borderSizeY + (y + playerPointY) * mTileSize;
-							canvas.drawBitmap(mTileGrid[playerX + x][playerY
-									+ y][layer], drawAtX, drawAtY, mPaint);
+							canvas.drawBitmap(mTileGrid[playerX + x][playerY + y][layer], drawAtX, drawAtY, mPaint);
 						}
 					}
 					
@@ -481,8 +480,7 @@ public abstract class GameBoardView extends View implements Observer {
 						if (mTileGrid[playerX + x][playerY + y][layer] != null) {
 							drawAtX = borderSizeX +  (x+playerPointX) * mTileSize;
 							drawAtY = borderSizeY +  (y+playerPointY) * mTileSize;
-							canvas.drawBitmap(mTileGrid[playerX + x][playerY
-									+ y][layer], drawAtX, drawAtY, mPaint);
+							canvas.drawBitmap(mTileGrid[playerX + x][playerY + y][layer], drawAtX, drawAtY, mPaint);
 						}
 					}
 					
@@ -497,8 +495,7 @@ public abstract class GameBoardView extends View implements Observer {
 						if (mTileGrid[playerX + x][playerY + y][layer] != null) {
 							drawAtX = borderSizeX + (x + playerPointX)* mTileSize;
 							drawAtY = borderSizeY + (y + playerPointY)* mTileSize;
-							canvas.drawBitmap(mTileGrid[playerX + x][playerY
-									+ y][layer], drawAtX, drawAtY, mPaint);
+							canvas.drawBitmap(mTileGrid[playerX + x][playerY + y][layer], drawAtX, drawAtY, mPaint);
 						}
 					}
 					
@@ -507,7 +504,7 @@ public abstract class GameBoardView extends View implements Observer {
 				
 			}
 
-		} else {
+		} else { //on the off chance that the the player enters the buffer (buffer is the empty space around the map to prevent arrays from going in negative)
 			// For each tile on the board ...
 			for (int x = 0; x < tileCountX; x++) {
 				for (int y = 0; y < tileCountY; y++) {

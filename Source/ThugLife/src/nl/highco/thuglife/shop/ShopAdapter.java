@@ -31,10 +31,8 @@ public class ShopAdapter extends ArrayAdapter<ShopItem>{
 		if(convertView == null){
 			convertView = inflater.inflate(R.layout.shop_item, null);
 		}
-		
 		ShopItem item = super.getItem(position);
 		
-		//ImageView itemImage = (ImageView) convertView.findViewById(R.id.itemImage);
 		TextView descriptionTextView = (TextView) convertView.findViewById(R.id.descriptionTextView);
 		TextView bonusTextView = (TextView) convertView.findViewById(R.id.bonusTextView);
 		TextView boughtTextView = (TextView) convertView.findViewById(R.id.boughtTextView);
@@ -45,6 +43,11 @@ public class ShopAdapter extends ArrayAdapter<ShopItem>{
 		descriptionTextView.setText(item.getDescription()+"");
 		textViewCost.setText("Cost: " + item.getCost());
 		bonusTextView.setText("bonus :" + item.getBonusDescription());
+		if(item.getBought()){
+			boughtTextView.setText("gekocht");
+		}else{
+			boughtTextView.setText("");
+		}
 		boughtTextView.setText("gekocht :" + item.getBought()+"");
 		buyButton.setOnClickListener(new onBuyButtonClickListener(game, item));
 		buyButton.setEnabled(true);

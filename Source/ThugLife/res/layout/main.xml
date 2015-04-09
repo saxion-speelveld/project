@@ -66,28 +66,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Score:" />
+                    android:text="Score:"
+                    android:textColor="@android:color/darker_gray" />
 
                 <TextView
                     android:id="@+id/textViewMoneyG"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Money:" />
+                    android:text="Money:"
+                    android:textColor="@android:color/darker_gray" />
 
                 <TextView
                     android:id="@+id/textViewWietG"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Wiet:" />
+                    android:text="Wiet:"
+                    android:textColor="@android:color/darker_gray" />
                 
                  <TextView
                     android:id="@+id/textViewHighscore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Highscore:" />
+                    android:text="Highscore:" 
+                    android:textColor="@android:color/darker_gray"/>
 
             </LinearLayout>
 
@@ -208,12 +212,6 @@
             android:layout_height="wrap_content"
             android:text="Swipe to the direction you want to go. try to collect as many weed as possible and sell the weed in the shop so you can buy upgrades. but watch out, the police is hunting you and the more weed you collect, the more police will spawn in the game. you can notice police spawning by the WHOOP...WHOOP sound that is playing " />
 
-        <Button
-            android:id="@+id/buttonReturnM"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back" />
-
     </LinearLayout>
     
     <LinearLayout
@@ -241,12 +239,6 @@
             android:text="1"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="30dp" />
-
-        <Button
-            android:id="@+id/statiscticsBackButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back" />
         	
     </LinearLayout>
 

@@ -12,7 +12,7 @@ import nl.highco.thuglife.objects.Weed;
 import nl.saxion.act.playground.view.GameBoardView;
 import nl.saxion.act.playground.view.SpriteCache;
 
-
+// the cause for the view change is in the original gameView
 public class ThugGameBoardView extends GameBoardView{
 		private static final String TAG = "GameView";
 

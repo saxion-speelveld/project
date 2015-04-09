@@ -17,133 +17,123 @@ import nl.highco.thuglife.objects.*;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 
+public class ThugGame extends Game implements Observer {
 
-
-
-public class ThugGame extends Game implements Observer{
+	public static final String TAG = "thug game";
 	
-public static final String TAG = "thug game";
+	private MainActivity activity;
+	private int money, score, wiet;
+	private int highscore = 0;
+	private int politieScore = 50;
+	private MediaPlayer mPlayer;
+	public boolean isPlaying = false;
 
-private MainActivity activity;
-private int money, score, wiet;
-private int highscore = 0;
-private int politieScore = 50;
-private MediaPlayer mPlayer;
-public boolean isPlaying = false;
-
-//map size
+	// map size
 	private final static int MAP_WIDTH = 100;
 	private final static int MAP_HIGHT = 100;
-	
-//map (can be for now only be with a random map)	
+	// map
+	private int[][] map;
+	// player
+	private Player player;
+	private ArrayList<Police> politie = new ArrayList<Police>();
+	//handlers
 	final Handler POLICEHANDLER = new Handler();
 	final Handler PLAYERHANDLER = new Handler();
-	private int[][] map;
-	
-	// player
-	private Player player;	
-	private ArrayList<Police> politie = new ArrayList<Police>();
-	
 	// gameboard
 	private GameBoard gameBoard;
-	
-	//timer
+	// timers
 	private Timer policeTimer;
 	private Timer playerTimer;
 
 	public ThugGame(MainActivity activity) {
-		super(new ThugGameboard(MAP_WIDTH,MAP_HIGHT));
+		super(new ThugGameboard(MAP_WIDTH, MAP_HIGHT));
+
+		this.activity = activity;
 		
-		this.activity = activity; 
-		// moet erbij als er nieuwe componenten aan het main.xml word toe gevoegd
-		
-		
-		//starts the game
+		// starts the game
 		initGame();
-		
-		//sets the game view to the game board
+
+		// sets the game view to the game board
 		ThugGameBoardView gameView = activity.getGameBoardView();
 		gameBoard = getGameBoard();
 		gameBoard.addObserver(this);
 		gameView.setGameBoard(gameBoard);
+
+		//Swipe controls/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		
-	// /////////////////////////////////////////////////////////////////////////////////////////////
-				// Swipe controls
-				gameView.setOnTouchListener(new OnSwipeTouchListener(activity) {
-					public void onSwipeTop() {
-						Log.i("touchListener", "omhoog");
-						player.setRichtingOmhoog();
-					}
+		gameView.setOnTouchListener(new OnSwipeTouchListener(activity) {
+			public void onSwipeTop() {
+				Log.i("touchListener", "omhoog");
+				player.setRichtingOmhoog();
+			}
 
-					public void onSwipeRight() {
-						Log.i("touchListener", "rechts");
-						player.setRichtingRechts();
-					}
+			public void onSwipeRight() {
+				Log.i("touchListener", "rechts");
+				player.setRichtingRechts();
+			}
 
-					public void onSwipeLeft() {
-						Log.i("touchListener", "links");
-						player.setRichtingLinks();
-					}
+			public void onSwipeLeft() {
+				Log.i("touchListener", "links");
+				player.setRichtingLinks();
+			}
 
-					public void onSwipeBottom() {
-						Log.i("touchListener", "onder");
-						player.setRichtingBeneden();
-					}
+			public void onSwipeBottom() {
+				Log.i("touchListener", "onder");
+				player.setRichtingBeneden();
+			}
 
-					public boolean onTouch(View v, MotionEvent event) {
-						return gestureDetector.onTouchEvent(event);
-					}
+			public boolean onTouch(View v, MotionEvent event) {
+				return gestureDetector.onTouchEvent(event);
+			}
 
-				});	
-	///////////////////////////////////////////////////////////////////////////////////////////////////	
-				
-				
-		//decides what kind of map format to use
-		gameView.setFixedGridSize(gameBoard.getWidth(),gameBoard.getHeight());
-		
+		});
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// decides what kind of map format to use
+		gameView.setFixedGridSize(gameBoard.getWidth(), gameBoard.getHeight());
+
 	}
-	
-	public void initGame(){
-		
-		//getting a map
-		MapGenerator mapgen = new MapGenerator(MAP_WIDTH,MAP_HIGHT);
-		map = mapgen.getStandardMap3();
-		
-		// setting up the board		
+
+	public void initGame() {
+
+		// getting a map
+		MapGenerator mapgen = new MapGenerator();
+		map = mapgen.getRandomMap();
+
+		// setting up the board
 		GameBoard board = getGameBoard();
 		board.removeAllObjects();
-		
-		//score en money 0
+
+		// score , money en wiet  naar 0
 		score = 0;
 		money = 0;
 		wiet = 10;
-		
-		//add player
+
+		// add player
 		player = new Player();
 		board.addGameObject(player, 55, 50);
-		
+
 		// add shop
 		board.addGameObject(new Shop(), 50, 60);
-		
-		//wiet
+
+		// add wiet
 		board.addGameObject(new Weed(), 42, 51);
 		board.addGameObject(new Weed(), 80, 95);
 		board.addGameObject(new Weed(), 75, 76);
 		board.addGameObject(new Weed(), 31, 64);
 		board.addGameObject(new Weed(), 98, 98);
 		board.addGameObject(new Weed(), 83, 84);
-		
-		//Police
+
+		// add Police
 		politie.clear();
-		
+
 		Police p1 = new Police();
 		Police p2 = new Police();
 		Police p3 = new Police();
 		Police p4 = new Police();
 		Police p5 = new Police();
 		Police p6 = new Police();
-		
+
 		board.addGameObject(p1, 28, 30);
 		board.addGameObject(p2, 31, 38);
 		board.addGameObject(p3, 46, 47);
@@ -157,27 +147,27 @@ public boolean isPlaying = false;
 		politie.add(p4);
 		politie.add(p5);
 		politie.add(p6);
-		
-		/////
-		
-		//add load map onto field
-		for(int x = 0; x < MAP_WIDTH; x++){
-			for(int y = 0; y < MAP_HIGHT; y++){
-				if(map[x][y] == 1){
-					if(board.getObject(x, y) == null){
+
+		// load walls onto the field
+		for (int x = 0; x < MAP_WIDTH; x++) {
+			for (int y = 0; y < MAP_HIGHT; y++) {
+				if (map[x][y] == 1) {
+					if (board.getObject(x, y) == null) {
 						board.addGameObject(new Wall(), x, y);
 					}
 				}
 			}
 		}
+		
 		board.updateView();
 	}
-	
+	// adds police on a random spot within the map
 	public void addPolice() {
 		int xSpot = randomX();
 		int ySpot = randomY();
-		
-		if (gameBoard.getObject(xSpot, ySpot)== null && xSpot > 26 && ySpot > 11) {
+
+		if (gameBoard.getObject(xSpot, ySpot) == null && xSpot > 26
+				&& ySpot > 11) {
 			politie.add(new Police());
 			getGameBoard().addGameObject(politie.get(politie.size() - 1),
 					xSpot, ySpot);
@@ -185,12 +175,13 @@ public boolean isPlaying = false;
 			addPolice();
 		}
 	}
-	
+	// adds wiet on a random spot within the map
 	public void addWietToMap() {
 		int xSpot = randomX();
 		int ySpot = randomY();
-		
-		if (gameBoard.getObject(xSpot, ySpot)== null && xSpot > 26 && ySpot > 11) {
+
+		if (gameBoard.getObject(xSpot, ySpot) == null && xSpot > 26
+				&& ySpot > 11) {
 			getGameBoard().addGameObject(new Weed(), xSpot, ySpot);
 		} else {
 			addWietToMap();
@@ -198,106 +189,106 @@ public boolean isPlaying = false;
 	}
 	
 	public int randomX() {
-		int randomX = (int)(Math.random() * MAP_WIDTH);
+		int randomX = (int) (Math.random() * MAP_WIDTH);
 		return randomX;
 	}
-	
+
 	public int randomY() {
-		int randomY = (int)(Math.random() * MAP_HIGHT);
+		int randomY = (int) (Math.random() * MAP_HIGHT);
 		return randomY;
 	}
 	
-	public void enterShop(){
+	public void enterShop() {
 		activity.gotoShopView();
 	}
-	
-	public void reset(){
+	//resets the game
+	public void reset() {
 		activity.resetShop();
 		initGame();
 	}
-	
 
 	/**
 	 * adds money to total of players' money
 	 * @param aantal amount of money to be added
 	 */
-	public void addMoney(int aantal){
+	public void addMoney(int aantal) {
 		money += aantal;
 		gameBoard.updateView();
 	}
-	
+
 	/**
 	 * deducts money of total of players' money
 	 * @param aantal amount of money to be deducted
 	 */
-	public void deductMoney(int aantal){
+	public void deductMoney(int aantal) {
 		money -= aantal;
 		gameBoard.updateView();
 	}
-	
+
 	/**
 	 * adds 50 points to score when player collides with weed object
 	 */
-	public void updateScoreWCWW(){
+	public void updateScoreWCWW() {
 		score += 50;
-		if(score > highscore){
+		if (score > highscore) {
 			highscore = score;
 		}
 		gameBoard.updateView();
 	}
+
 	/**
-	 * adds one weed
+	 * adds one weed to the weed variable
 	 */
-	public void addWiet(){
-		wiet ++;
+	public void addWiet() {
+		wiet++;
 		gameBoard.updateView();
 	}
+
 	/**
 	 * deducts the weed according to the given value
 	 * @param aantal
 	 */
-	public void deductWiet(int aantal){
+	public void deductWiet(int aantal) {
 		wiet -= aantal;
 		gameBoard.updateView();
 	}
-	
+
 	/**
-	 * returns the total amount of money the player has
-	 * @return total amount of money player has
+	 * @return total amount of money the player has
 	 */
-	public int getMoney(){
+	public int getMoney() {
 		return money;
 	}
-	
+
 	/**
-	 * returns the total score the player has
 	 * @return total score the player has
 	 */
-	public int getScore(){
+	public int getScore() {
 		return score;
 	}
-	
-	public int getHighscore(){
+	/**
+	 * @return high score
+	 */
+	public int getHighscore() {
 		return highscore;
 	}
+
 	/**
-	 * returns the total amount of wiet the player has
-	 * @return wiet
+	 * @return total amount of wiet the player has
 	 */
-	public int getWiet(){
+	public int getWiet() {
 		return wiet;
 	}
-	
-	public Player getPlayer(){
+	/**
+	 * @return the player object
+	 */
+	public Player getPlayer() {
 		return player;
 	}
-	
-	
-	
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// Timer
-	
-	// police timer
+
+	//Timer//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// police timer methods
 	public void startPoliceTimer() {
 		isPlaying = true;
 		// maakt een timer die de handler en de runnable oproept elke halve
@@ -310,12 +301,12 @@ public boolean isPlaying = false;
 			}
 		}, 0, 250);
 	}
-	
-	private void stopPoliceTimer(){
+
+	private void stopPoliceTimer() {
 		policeTimer.cancel();
 	}
-	
-	//player timer
+
+	// player timer methods
 	public void startPlayerTimer(int speed) {
 		isPlaying = true;
 		// maakt een timer die de handler en de runnable oproept elke halve
@@ -328,68 +319,64 @@ public boolean isPlaying = false;
 			}
 		}, 0, speed);
 	}
-	
-	private void stopPlayerTimer(){
+
+	private void stopPlayerTimer() {
 		playerTimer.cancel();
 	}
-	
+
 	// De runnable voor de police die je aan de handler meegeeft.
 	final Runnable policeRunnable = new Runnable() {
 		public void run() {
-			for(int i = 0; i < politie.size(); i++) {
+			for (int i = 0; i < politie.size(); i++) {
 				politie.get(i).onUpdate(gameBoard);
 			}
 			gameBoard.updateView();
 		}
 	};
-	
+
 	// De runnable voor de player die je aan de handler meegeeft.
-		final Runnable playerRunnable = new Runnable() {
-			public void run() {
-				player.onUpdate(gameBoard);
-			}
-		};
+	final Runnable playerRunnable = new Runnable() {
+		public void run() {
+			player.onUpdate(gameBoard);
+		}
+	};
 
 	// Methode waarmee je de runnable aan de handler meegeeft.
 	public void UpdateGUIPolice() {
 		POLICEHANDLER.post(policeRunnable);
 	}
-	
+
 	public void UpdateGUIPlayer() {
 		PLAYERHANDLER.post(playerRunnable);
 	}
 
-	// testen of player alive is
-	private boolean isPlayerAlive(){
-		for(int x = 0; x < MAP_WIDTH; x++){
-			for(int y = 0; y < MAP_HIGHT; y++){
-				if(gameBoard.getObject(x, y) instanceof Player){
-					Player player = (Player) gameBoard.getObject(x, y);
-					return player.getAliveState();
-				}
-			}
+	// kijken of player alive is
+	private boolean isPlayerAlive() {
+		if(player.getAliveState()){
+			return true;
 		}
 		return false;
 	}
-	
-	public void stopTimers(){
+	// stops the timers
+	public void stopTimers() {
 		stopPlayerTimer();
 		stopPoliceTimer();
 		isPlaying = false;
 	}
-	
+
 	public void update(Observable observable, Object data) {
-		
-		if(!isPlayerAlive()){
+
+		if (!isPlayerAlive()) {
 			stopTimers();
 			activity.gotoGameOverScreen();
 		}
-		
+
 		activity.updateMoneyLabels();
 		activity.updateScoreLabel();
 		activity.updateWietLabels();
 		activity.updateHighscoreLabel();
-		// Voegt politie toe als de speler een wiet object opppakt.
+		
+		//Voegt politie toe als de speler een wiet object opppakt.
 		if (getScore() == politieScore) {
 			addPolice();
 			policeMusic();
@@ -398,7 +385,7 @@ public boolean isPlaying = false;
 		}
 
 	}
-	
+	//music for when the player picks up a wiet object
 	private void policeMusic() {
 		mPlayer = MediaPlayer.create(activity, R.raw.soundofdapolice);
 		mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -413,5 +400,5 @@ public boolean isPlaying = false;
 		}
 		mPlayer.start();
 	}
-	
+
 }
